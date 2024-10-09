@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 hook
 
 function CapturePhoto() {
   const [cameraType, setCameraType] = useState('user'); // 전면 카메라 기본
   const videoRef = useRef(null);
   const canvasRef = useRef(null); // 사진을 찍기 위한 canvas
   const streamRef = useRef(null); // 스트림 저장
-  const [photo, setPhoto] = useState(null); // 캡처한 이미지 상태
+  const navigate = useNavigate(); // 페이지 이동을 위한 hook
 
   // 기존 스트림 종료 함수
   const stopStream = () => {
@@ -70,9 +71,11 @@ function CapturePhoto() {
       canvas.height = video.videoHeight;
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // 캡처한 이미지를 base64 URL로 변환하여 상태로 저장
+      // 캡처한 이미지를 base64 URL로 변환
       const imageDataUrl = canvas.toDataURL('image/png');
-      setPhoto(imageDataUrl);
+
+      // 이미지를 새로운 페이지로 전달하고 이동
+      navigate('/photo', { state: { photo: imageDataUrl } });
     }
   };
 
@@ -102,14 +105,6 @@ function CapturePhoto() {
 
       {/* 캡처 버튼 */}
       <button onClick={capturePhoto}>Capture Photo</button>
-
-      {/* 캡처한 사진 미리보기 */}
-      {photo && (
-        <div>
-          <h2>Captured Photo:</h2>
-          <img src={photo} alt="Captured" style={{ width: '100%', maxHeight: '300px' }} />
-        </div>
-      )}
 
       {/* Canvas 요소 - 캡처용 (화면에 보이지 않음) */}
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>

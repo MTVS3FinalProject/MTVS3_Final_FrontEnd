@@ -3,12 +3,14 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import CameraPage from './pages/camera/CameraPage';
+import Camera from './pages/camera/Camera';
+import DisplayPhoto from './pages/camera/DisplayPhoto';
 
 function App() {
   return (
     <Routes>
-      <Route path='/camera' element={<CameraPage />} />
+      <Route path='/' element={<Camera />} />
+      <Route path='/photo' element={<DisplayPhoto />} />
     </Routes>
   )
 }
