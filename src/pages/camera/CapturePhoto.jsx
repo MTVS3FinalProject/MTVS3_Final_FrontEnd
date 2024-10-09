@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 
-function CameraUpload() {
+function CapturePhoto() {
   const [cameraType, setCameraType] = useState('user'); // 전면 카메라 기본
   const videoRef = useRef(null);
+  const canvasRef = useRef(null); // 사진을 찍기 위한 canvas
   const streamRef = useRef(null); // 스트림 저장
+  const [photo, setPhoto] = useState(null); // 캡처한 이미지 상태
 
   // 기존 스트림 종료 함수
   const stopStream = () => {
@@ -18,7 +20,6 @@ function CameraUpload() {
     const videoDevices = devices.filter(device => device.kind === 'videoinput');
     
     if (facingMode === 'environment') {
-      // 후면 카메라 찾기
       const backCamera = videoDevices.find(device =>
         device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('rear')
       );
@@ -26,7 +27,6 @@ function CameraUpload() {
     }
     
     if (facingMode === 'user') {
-      // 전면 카메라 찾기
       const frontCamera = videoDevices.find(device =>
         device.label.toLowerCase().includes('front')
       );
@@ -59,6 +59,23 @@ function CameraUpload() {
     }
   }, [cameraType]);
 
+  // 캡처 함수
+  const capturePhoto = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+
+    if (video && canvas) {
+      const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // 캡처한 이미지를 base64 URL로 변환하여 상태로 저장
+      const imageDataUrl = canvas.toDataURL('image/png');
+      setPhoto(imageDataUrl);
+    }
+  };
+
   // 카메라 타입 전환 함수 (전면 <-> 후면)
   const toggleCamera = () => {
     setCameraType((prevType) => (prevType === 'user' ? 'environment' : 'user'));
@@ -84,11 +101,20 @@ function CameraUpload() {
       <video ref={videoRef} autoPlay playsInline style={{ width: '100%', maxHeight: '300px' }} />
 
       {/* 캡처 버튼 */}
-      <button onClick={() => console.log('Capture photo logic here')}>
-        Capture Photo
-      </button>
+      <button onClick={capturePhoto}>Capture Photo</button>
+
+      {/* 캡처한 사진 미리보기 */}
+      {photo && (
+        <div>
+          <h2>Captured Photo:</h2>
+          <img src={photo} alt="Captured" style={{ width: '100%', maxHeight: '300px' }} />
+        </div>
+      )}
+
+      {/* Canvas 요소 - 캡처용 (화면에 보이지 않음) */}
+      <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
     </div>
   );
 }
 
-export default CameraUpload;
+export default CapturePhoto;

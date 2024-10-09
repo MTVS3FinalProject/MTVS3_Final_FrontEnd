@@ -1,6 +1,6 @@
-import CameraUpload from "./CameraUpload";
+import CapturePhoto from "./CapturePhoto";
 
-function CameraPage() {
+function Camera() {
   return (
     <div style={styles.pageContainer}>
       <header style={styles.header}>
@@ -9,7 +9,7 @@ function CameraPage() {
       
       <main style={styles.mainContent}>
         {/* 카메라 업로드 컴포넌트를 렌더링 */}
-        <CameraUpload />
+        <CapturePhoto />
       </main>
 
       <footer style={styles.footer}>
@@ -51,4 +51,4 @@ const styles = {
   },
 };
 
-export default CameraPage;
+export default Camera;
