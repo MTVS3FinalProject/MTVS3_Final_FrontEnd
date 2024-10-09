@@ -1,4 +1,4 @@
-import CameraUpload from "../../api/camera";
+import CameraUpload from "./CameraUpload";
 
 function CameraPage() {
   return (
