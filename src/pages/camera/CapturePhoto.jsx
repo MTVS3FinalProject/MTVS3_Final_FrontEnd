@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 hook
 
 function CapturePhoto() {
