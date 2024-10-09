@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 function CameraUpload() {
   const [cameraType, setCameraType] = useState('user'); // 전면 카메라 기본
   const videoRef = useRef(null);
 
-  // 카메라 시작 함수
-  const startCamera = async () => {
+  // 카메라 시작 함수 (useCallback으로 메모이제이션)
+  const startCamera = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: cameraType }, // 카메라 타입에 따라 전면 또는 후면
@@ -16,7 +16,7 @@ function CameraUpload() {
     } catch (error) {
       console.error("Error accessing the camera", error);
     }
-  };
+  }, [cameraType]); // cameraType을 의존성으로 추가
 
   // 카메라 타입 전환 함수 (전면 <-> 후면)
   const toggleCamera = () => {
@@ -24,8 +24,8 @@ function CameraUpload() {
   };
 
   useEffect(() => {
-    startCamera(); // 컴포넌트가 마운트될 때 카메라 시작
-  }, [cameraType]); // cameraType이 변경될 때마다 카메라를 다시 시작
+    startCamera(); // 카메라 시작
+  }, [startCamera]); // startCamera를 의존성 배열에 추가
 
   return (
     <div>
