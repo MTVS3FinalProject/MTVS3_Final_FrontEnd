@@ -8,11 +8,11 @@ export const uploadPhoto = async (file) => {
 
   // FormData 객체 생성 및 파일 추가
   const formData = new FormData();
-  formData.append('image', file); // 'image' 필드로 파일 전송
+  formData.append('image', file); // 서버에 'image' 필드로 파일 전송
 
   try {
     // PostAxiosInstance를 사용하여 파일 업로드 요청
-    const response = await PostAxiosInstance('/upload', formData, {
+    const response = await PostAxiosInstance('/file', formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // 파일 업로드를 위한 헤더
       },
