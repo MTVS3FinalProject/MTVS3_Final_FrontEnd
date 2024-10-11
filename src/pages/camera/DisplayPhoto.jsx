@@ -1,10 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { uploadPhoto } from '../../api/camera';
+import { sendErrorLog } from '../../api/camera';
 
 function DisplayPhoto() {
   const location = useLocation();
-  const { photo } = location.state || {};
+  const { photo, email } = location.state || {}; // 이메일 정보도 받음
   const [isUploading, setIsUploading] = useState(false);
 
   // 파일 이름 생성 함수: 현재 시간 기반으로 고유 파일명 생성
@@ -33,11 +34,12 @@ function DisplayPhoto() {
 
     try {
       setIsUploading(true);
-      await uploadPhoto(file); // 파일로 업로드
+      await uploadPhoto(file, email); // 파일과 이메일 정보로 업로드
       alert('Photo uploaded successfully!');
     } catch (error) {
       console.error('Error during upload:', error);
-      alert('Failed to upload the photo.');
+      await sendErrorLog(error.message);  // 에러 발생 시 서버로 로그 전송
+      alert('Failed to upload the photo. displayphoto');
     } finally {
       setIsUploading(false);
     }
