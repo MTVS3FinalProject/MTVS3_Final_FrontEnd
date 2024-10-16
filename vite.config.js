@@ -9,10 +9,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
-    port: 5173,
+    port: 7979,
     https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'certs/localhost+2-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'certs/localhost+2.pem'))
+      key: fs.readFileSync(path.resolve(__dirname, 'certs/key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'certs/cert.pem'))
     },
   },
 })
