@@ -51,7 +51,7 @@ function CapturePhoto({ email }) { // 이메일 정보 받기
       const imageDataUrl = canvas.toDataURL('image/png');
 
       // 이미지를 새로운 페이지로 전달하고 이동 (이메일 정보도 포함)
-      navigate('/photo', { state: { photo: imageDataUrl, email } });
+      navigate('/photo/signup', { state: { photo: imageDataUrl, email } });
     }
   };
 

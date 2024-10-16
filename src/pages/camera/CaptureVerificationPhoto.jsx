@@ -51,7 +51,7 @@ function CaptureVerificationPhoto({ memberId }) { // 회원 ID 정보 받기
       const imageDataUrl = canvas.toDataURL('image/png');
 
       // 이미지를 새로운 페이지로 전달하고 이동 (회원 ID 정보도 포함)
-      navigate('/verification-photo', { state: { photo: imageDataUrl, memberId } });
+      navigate('/photo/verfication', { state: { photo: imageDataUrl, memberId } });
     }
   };
 
