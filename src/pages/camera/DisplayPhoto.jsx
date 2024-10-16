@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { uploadPhoto } from '../../api/camera';
-import { sendErrorLog } from '../../api/camera';
 
 function DisplayPhoto() {
   const location = useLocation();
@@ -38,7 +37,6 @@ function DisplayPhoto() {
       alert('Photo uploaded successfully!');
     } catch (error) {
       console.error('Error during upload:', error);
-      await sendErrorLog(error.message);  // 에러 발생 시 서버로 로그 전송
       alert('Failed to upload the photo. displayphoto');
     } finally {
       setIsUploading(false);

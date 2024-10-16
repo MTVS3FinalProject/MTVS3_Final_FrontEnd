@@ -14,7 +14,7 @@ export const uploadPhoto = async (file, email) => {
 
   try {
     // PostAxiosInstance를 사용하여 파일 업로드 요청
-    const response = await PostAxiosInstance('/file', formData);
+    const response = await PostAxiosInstance('/file/signup', formData);
 
     // 업로드 성공 시 반환할 데이터
     return response.data;
