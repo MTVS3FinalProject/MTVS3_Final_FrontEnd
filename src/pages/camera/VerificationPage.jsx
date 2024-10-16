@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import CaptureVerificationPhoto from './CaptureVerificationPhoto';
+import CaptureVerificationPhoto from './CaptureVerificationPhoto.jsx';
 
 function VerificationPage() {
   const location = useLocation();
