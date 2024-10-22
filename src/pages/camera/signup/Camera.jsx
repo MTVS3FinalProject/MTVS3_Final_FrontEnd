@@ -12,6 +12,7 @@ function Camera() {
     const emailFromQR = queryParams.get('email');
     
     if (emailFromQR) {
+      console.log('emailFromQR: ' + emailFromQR)
       setEmail(emailFromQR);
     }
   }, [location]);
@@ -24,7 +25,7 @@ function Camera() {
       
       <main style={styles.mainContent}>
         {/* 카메라 컴포넌트에 이메일 정보를 전달 */}
-        <CapturePhoto email={email} />
+        {email ? <CapturePhoto email={email} /> : <p>Loading..</p>}
       </main>
 
       <footer style={styles.footer}>

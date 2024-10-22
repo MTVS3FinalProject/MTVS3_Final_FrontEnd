@@ -25,6 +25,8 @@ function DisplayPhoto() {
       return;
     }
 
+    console.log('email : ' + email);
+
     // Blob 데이터로 변환 후 파일 생성
     const response = await fetch(photo);
     const blob = await response.blob();
