@@ -70,6 +70,7 @@ function CapturePhoto({ email }) {
       });
       camera.start();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 눈 깜빡임을 감지한 결과 처리 함수
