@@ -7,12 +7,12 @@ function VerificationPage() {
   const [userCode, setUserCode] = useState('');
 
   useEffect(() => {
-    // QR 코드에서 memberId 정보를 쿼리 파라미터로 가져옴
+    // QR 코드에서 userCode 정보를 쿼리 파라미터로 가져옴
     const queryParams = new URLSearchParams(location.search);
-    const memberIdFromQR = queryParams.get('id');
+    const userCodeFromQR = queryParams.get('userCode');
     
-    if (memberIdFromQR) {
-      setUserCode(memberIdFromQR);
+    if (userCodeFromQR) {
+      setUserCode(userCodeFromQR);
     }
   }, [location]);
 
@@ -24,7 +24,7 @@ function VerificationPage() {
       
       <main style={styles.mainContent}>
         {/* 카메라 컴포넌트에 memberId 정보를 전달 */}
-        <CaptureVerificationPhoto memberId={userCode} />
+        {userCode ? <CaptureVerificationPhoto userCode={userCode} /> : <p>Loding..</p>}
       </main>
 
       <footer style={styles.footer}>
