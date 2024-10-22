@@ -30,13 +30,13 @@ export const uploadPhoto = async (file, email, secondPwd) => {
 export const uploadVerificationPhoto = async (file, userCode, secondPwd) => {
   
   if (!file || !userCode || !secondPwd) {
-    throw new Error('Missing file or second password.');
+    throw new Error('Missing file, user code, or second password.');
   }
 
   // FormData 객체 생성 및 파일 추가
   const formData = new FormData();
   formData.append('image', file); // 서버에 'image' 필드로 파일 전송
-  formData.append('userCode', userCode);
+  formData.append('code', userCode);
   formData.append('secondPwd', secondPwd); 
 
   try {
