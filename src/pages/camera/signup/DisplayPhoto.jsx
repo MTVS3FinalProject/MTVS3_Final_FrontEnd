@@ -89,7 +89,7 @@ function DisplayPhoto() {
             {secondPwd.map((digit, idx) => (
               <input
                 key={idx}
-                type="text"
+                type="password" // 비밀번호 타입으로 변경하여 입력 값 숨김
                 value={digit}
                 onChange={(e) => handlePwdChange(e, idx)}
                 onKeyDown={(e) => handleKeyDown(e, idx)}

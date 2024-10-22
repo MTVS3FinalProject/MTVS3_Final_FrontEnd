@@ -4,7 +4,7 @@ import CaptureVerificationPhoto from './CaptureVerificationPhoto.jsx';
 
 function VerificationPage() {
   const location = useLocation();
-  const [memberId, setMemberId] = useState('');
+  const [userCode, setUserCode] = useState('');
 
   useEffect(() => {
     // QR 코드에서 memberId 정보를 쿼리 파라미터로 가져옴
@@ -12,7 +12,7 @@ function VerificationPage() {
     const memberIdFromQR = queryParams.get('id');
     
     if (memberIdFromQR) {
-      setMemberId(memberIdFromQR);
+      setUserCode(memberIdFromQR);
     }
   }, [location]);
 
@@ -24,7 +24,7 @@ function VerificationPage() {
       
       <main style={styles.mainContent}>
         {/* 카메라 컴포넌트에 memberId 정보를 전달 */}
-        <CaptureVerificationPhoto memberId={memberId} />
+        <CaptureVerificationPhoto memberId={userCode} />
       </main>
 
       <footer style={styles.footer}>
