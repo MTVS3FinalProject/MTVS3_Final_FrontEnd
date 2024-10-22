@@ -86,7 +86,8 @@ function CapturePhoto() {
             blinkCountRef.current++;
             lastBlinkTimeRef.current = currentTime;
 
-            if (blinkCountRef.current === 2) {  // 두 번 깜빡임이 감지되면 사진 촬영
+            if (blinkCountRef.current === 2) {
+              // 두 번 깜빡임이 감지되면 사진 촬영
               setTimeout(capturePhoto, 1000); // 1초 지연 후 사진 촬영
               blinkCountRef.current = 0; // 카운트 리셋
             }
@@ -108,7 +109,7 @@ function CapturePhoto() {
     return eyeHeight > 0.015; // 눈이 열려있는지 확인하는 임계값
   };
 
-  // 캡처 함수
+  // 캡처 함수 (좌우 반전 포함)
   const capturePhoto = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -117,13 +118,19 @@ function CapturePhoto() {
       const context = canvas.getContext('2d');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
+
+      // 좌우 반전 적용
+      context.translate(canvas.width, 0);
+      context.scale(-1, 1);
+
+      // 비디오 프레임을 캔버스에 그리기 (좌우 반전된 상태로)
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       // 캡처한 이미지를 base64 URL로 변환
       const imageDataUrl = canvas.toDataURL('image/png');
 
       // 이미지를 새로운 페이지로 전달하고 이동
-      navigate('/photo/signup', { state: { photo: imageDataUrl } });
+      navigate('/photo', { state: { photo: imageDataUrl } });
     }
   };
 
