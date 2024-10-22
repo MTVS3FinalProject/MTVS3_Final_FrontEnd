@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { uploadVerificationPhoto } from '../../api/camera';
+import { uploadPhoto } from '../../../api/camera';
 
-function VerificationPhoto() {
+function DisplayPhoto() {
   const location = useLocation();
-  const { photo, memberId } = location.state || {}; // memberId 정보도 받음
+  const { photo, email } = location.state || {}; // 이메일 정보도 받음
   const [isUploading, setIsUploading] = useState(false);
 
   // 파일 이름 생성 함수: 현재 시간 기반으로 고유 파일명 생성
@@ -16,7 +16,7 @@ function VerificationPhoto() {
                       now.getHours().toString().padStart(2, '0') +
                       now.getMinutes().toString().padStart(2, '0') +
                       now.getSeconds().toString().padStart(2, '0');
-    return `verification-photo-${timestamp}.png`;
+    return `captured-photo-${timestamp}.png`;
   };
 
   const handleUploadClick = async () => {
@@ -33,11 +33,11 @@ function VerificationPhoto() {
 
     try {
       setIsUploading(true);
-      await uploadVerificationPhoto(file, memberId); // 파일과 회원 ID 정보로 업로드
-      alert('Verification photo uploaded successfully!');
+      await uploadPhoto(file, email); // 파일과 이메일 정보로 업로드
+      alert('Photo uploaded successfully!');
     } catch (error) {
       console.error('Error during upload:', error);
-      alert('Failed to upload the verification photo.');
+      alert('Failed to upload the photo. displayphoto');
     } finally {
       setIsUploading(false);
     }
@@ -45,10 +45,10 @@ function VerificationPhoto() {
 
   return (
     <div>
-      <h1>Verification Photo</h1>
+      <h1>Captured Photo</h1>
       {photo ? (
         <div>
-          <img src={photo} alt="Verification" style={{ width: '50%' }} />
+          <img src={photo} alt="Captured" style={{ width: '50%' }} />
           <br />
           <button onClick={handleUploadClick} disabled={isUploading}>
             {isUploading ? 'Uploading...' : 'Confirm and Upload'}
@@ -61,4 +61,4 @@ function VerificationPhoto() {
   );
 }
 
-export default VerificationPhoto;
+export default DisplayPhoto;
