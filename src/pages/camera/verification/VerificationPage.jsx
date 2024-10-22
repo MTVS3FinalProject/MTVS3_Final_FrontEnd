@@ -1,30 +1,30 @@
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import CapturePhoto from './CapturePhoto';
+import CaptureVerificationPhoto from './CaptureVerificationPhoto.jsx';
 
-function Camera() {
+function VerificationPage() {
   const location = useLocation();
-  const [email, setEmail] = useState('');
+  const [userCode, setUserCode] = useState('');
 
   useEffect(() => {
-    // QR 코드에서 이메일 정보를 쿼리 파라미터로 가져옴
+    // QR 코드에서 userCode 정보를 쿼리 파라미터로 가져옴
     const queryParams = new URLSearchParams(location.search);
-    const emailFromQR = queryParams.get('email');
+    const userCodeFromQR = queryParams.get('userCode');
     
-    if (emailFromQR) {
-      setEmail(emailFromQR);
+    if (userCodeFromQR) {
+      setUserCode(userCodeFromQR);
     }
   }, [location]);
 
   return (
     <div style={styles.pageContainer}>
       <header style={styles.header}>
-        <h1>Photo Upload Page</h1>
+        <h1>Member Verification Page</h1>
       </header>
       
       <main style={styles.mainContent}>
-        {/* 카메라 컴포넌트에 이메일 정보를 전달 */}
-        <CapturePhoto email={email} />
+        {/* 카메라 컴포넌트에 memberId 정보를 전달 */}
+        {userCode ? <CaptureVerificationPhoto userCode={userCode} /> : <p>Loding..</p>}
       </main>
 
       <footer style={styles.footer}>
@@ -66,4 +66,4 @@ const styles = {
   },
 };
 
-export default Camera;
+export default VerificationPage;

@@ -1,9 +1,10 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 hook
+import PropTypes from 'prop-types';
 import * as faceMesh from '@mediapipe/face_mesh'; // MediaPipe Face Mesh
 import * as cameraUtils from '@mediapipe/camera_utils';
 
-function CapturePhoto() {
+function CaptureVerificationPhoto({ userCode }) { // userCode를 받음
   const videoRef = useRef(null);
   const canvasRef = useRef(null); // 사진을 찍기 위한 canvas
   const streamRef = useRef(null); // 스트림 저장
@@ -111,6 +112,11 @@ function CapturePhoto() {
 
   // 캡처 함수 (좌우 반전 포함)
   const capturePhoto = () => {
+    if (!userCode) {
+      console.warn('User code is not available yet.');
+      return;
+    }
+
     const video = videoRef.current;
     const canvas = canvasRef.current;
 
@@ -129,8 +135,10 @@ function CapturePhoto() {
       // 캡처한 이미지를 base64 URL로 변환
       const imageDataUrl = canvas.toDataURL('image/png');
 
+      console.log('userCode : ' + userCode);
+
       // 이미지를 새로운 페이지로 전달하고 이동
-      navigate('/photo', { state: { photo: imageDataUrl } });
+      navigate('/photo/verification', { state: { photo: imageDataUrl, userCode } });
     }
   };
 
@@ -144,7 +152,7 @@ function CapturePhoto() {
 
   return (
     <div>
-      <h1>Take a Photo by Blinking Twice</h1>
+      <h1>Take a Verification Photo by Blinking Twice</h1>
 
       {/* 비디오 스트림 */}
       <video ref={videoRef} autoPlay playsInline style={{ width: '100%', maxHeight: '300px' }} />
@@ -155,4 +163,8 @@ function CapturePhoto() {
   );
 }
 
-export default CapturePhoto;
+CaptureVerificationPhoto.propTypes = {
+  userCode: PropTypes.string.isRequired, // userCode prop을 문자열로 지정하고 필수로 설정
+};
+
+export default CaptureVerificationPhoto;
