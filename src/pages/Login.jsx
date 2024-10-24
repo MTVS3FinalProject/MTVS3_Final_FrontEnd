@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import LogoImage from '../assets/login/logo.png'
+import LogoImage from '../assets/login/logo.png';
 
 import { login } from "../api/auth";
 
@@ -12,38 +12,41 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-      try {
-        const res = await login(email, password);
-        console.log('Login successful:', res);
-        navigate('/ticket');
-      } catch (err) {
-        console.error('Login failed:', err);
-      }
+        try {
+            const res = await login(email, password);
+            console.log('Login successful:', res);
+            navigate('/ticket');
+        } catch (err) {
+            console.error('Login failed:', err);
+        }
     };
 
-return (
-    <LoginContainer>
-    <LoginForm>
-        <Title>ToDorian</Title>
-        <InputForm>
-        <LogoImg src={LogoImage} alt="Chick" />
-        <Input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-        />
-        <LoginButton onClick={handleLogin}>로그인</LoginButton>
-        </InputForm>
-    </LoginForm>
-    </LoginContainer>
-);
+    return (
+        <LoginContainer>
+            <LoginForm>
+                <LogoContainer>
+                    <LogoImg src={LogoImage} alt="Chick" />
+                    <InputContainer>
+                        <InputDescription>E-mail</InputDescription>
+                        <Input
+                            type="email"
+                            placeholder="e-mail"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <InputDescription>Password</InputDescription>
+                        <Input
+                            type="password"
+                            placeholder="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </InputContainer>
+                </LogoContainer>
+                <LoginButton onClick={handleLogin}>Sign in</LoginButton>
+            </LoginForm>
+        </LoginContainer>
+    );
 };
 
 export default Login;
@@ -53,67 +56,80 @@ const LoginContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
-    background-color: #f7f4f0;
-    padding: 0;
-    margin: 0;
-`;
-
-const Title = styled.h1`
-    font-size: 5rem;
-    color: #d4886e;
-    margin-bottom: 30px;
+    height: 100vh;
+    width: 100vw;
+    background-color: #0f121a;
 `;
 
 const LoginForm = styled.div`
-    height: 100%;
-    width: 100%;
     display: flex;
+    width: 80%;
+    height: 40%;
     flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
-    justify-content: center;
-    background-color: #fff6e6;
-    padding: 50px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #1b2230;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid #fff;
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+    gap: 1.5rem;
 `;
 
-const InputForm = styled.div`
+const LogoContainer = styled.div`
+width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 0.5rem;
     justify-content: center;
-    width: 30%;
+    align-items: center;
 `;
 
 const LogoImg = styled.img`
-    width: 250px;
-    margin-bottom: 30px;
+    width: 15vw; /* 로고 크기 조정 */
+`;
+
+const InputContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* 입력 필드들이 폼의 전체 너비를 차지하도록 설정 */
+    gap: 1.5vh; /* 각 입력 필드와 설명 사이의 간격 */
+`;
+
+const InputDescription = styled.div`
+    color: #81AEDB;
+    font-size: 3vw;
 `;
 
 const Input = styled.input`
     width: 100%;
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background-color: #2c3547;
+    color: white;
+    font-size: 1rem;
     box-sizing: border-box;
-    font-size: 1.2rem;
+
+    &::placeholder {
+        color: #9fa6b2;
+    }
 `;
 
 const LoginButton = styled.button`
     width: 100%;
-    padding: 15px;
-    background-color: #ffd233;
-    color: black;
+    padding: 0.7rem;
+    background-color: #000000;
+    color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 1.5rem;
-    cursor: pointer;
+    border-radius: 25px;
+    font-size: 1.2rem;
     transition: background-color 0.3s;
 
     &:hover {
-    background-color: #fbc02d;
+        color: #000000;
+        background-color: #fff;
     }
 `;
