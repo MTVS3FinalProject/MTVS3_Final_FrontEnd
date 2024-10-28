@@ -144,7 +144,7 @@ function CapturePhoto({ email }) {
       console.log('email : ' + email);
 
       // 이미지를 새로운 페이지로 전달하고 이동
-      navigate('/photo/signup', { state: { photo: imageDataUrl, email } });
+      navigate('/signup/photo', { state: { photo: imageDataUrl, email } });
     }
   };
 
