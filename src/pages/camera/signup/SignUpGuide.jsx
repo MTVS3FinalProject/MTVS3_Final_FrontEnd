@@ -83,7 +83,6 @@ const GridContainer = styled.div`
 const GuideImage = styled.img`
     width: 90%;
     height: 90%;
-    max-width: 300px;
     border-radius: 15px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border: 1px solid #fff;

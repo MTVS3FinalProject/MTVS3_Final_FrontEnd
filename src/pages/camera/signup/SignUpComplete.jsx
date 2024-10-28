@@ -5,8 +5,8 @@ import LogoImage from '../../../assets/login/logo.png';
 function SignUpComplete() {
     return (
         <PageContainer>
-            <LogoImg src={LogoImage} alt="Logo" />
             <MessageContainer>
+                <LogoImg src={LogoImage} alt="Logo" />
                 <SuccessMessage>신원 인증 등록 정상처리 되었습니다</SuccessMessage>
                 <GuideMessage>Ticketaka에서 회원가입을 완료해주세요</GuideMessage>
             </MessageContainer>
@@ -24,12 +24,13 @@ const PageContainer = styled.div`
     color: white;
 `;
 
-const LogoImg = styled.img`
-    width: 15vw; /* 로고 크기 조정 */
-`;
-
 const MessageContainer = styled.div`
     text-align: center;
+    padding-bottom: 3rem;
+`;
+
+const LogoImg = styled.img`
+    width: 50%; /* 로고 크기 조정 */
 `;
 
 const SuccessMessage = styled.p`

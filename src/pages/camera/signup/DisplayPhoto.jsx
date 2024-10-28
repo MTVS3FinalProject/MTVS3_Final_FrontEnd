@@ -124,7 +124,8 @@ function DisplayPhoto() {
             {secondPwd.map((digit, idx) => (
               <PasswordInput
                 key={idx}
-                type="password"
+                type='password'
+                inputMode='numeric'
                 value={digit}
                 onChange={(e) => handlePwdChange(e, idx, 'register')}
                 onKeyDown={(e) => handleKeyDown(e, idx, 'register')}
@@ -139,6 +140,7 @@ function DisplayPhoto() {
               <PasswordInput
                 key={idx}
                 type="password"
+                inputMode='numeric'
                 value={digit}
                 onChange={(e) => handlePwdChange(e, idx, 'confirm')}
                 onKeyDown={(e) => handleKeyDown(e, idx, 'confirm')}
