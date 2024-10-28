@@ -142,11 +142,16 @@ function CaptureVerificationPhoto({ userCode }) { // userCode를 받음
       navigate('/verification/photo', { state: { photo: imageDataUrl, userCode } });
     }
   };
-
+  
   useEffect(() => {
-    startCamera(); // 컴포넌트가 마운트될 때 카메라 시작
-    startFaceMesh(); // MediaPipe Face Mesh 시작
+    // 1초 딜레이를 주고 카메라를 시작
+    const timer = setTimeout(() => {
+      startCamera(); // 컴포넌트가 마운트될 때 카메라 시작
+      startFaceMesh(); // MediaPipe Face Mesh 시작
+    }, 1000);
+    
     return () => {
+      clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
       stopStream(); // 컴포넌트가 언마운트될 때 스트림 종료
     };
   }, [startCamera, startFaceMesh]);
