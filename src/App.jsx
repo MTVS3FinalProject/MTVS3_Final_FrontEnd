@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import SignUpGuide from './pages/camera/signup/SignUpGuide';
 import Camera from './pages/camera/signup/Camera';
 import DisplayPhoto from './pages/camera/signup/DisplayPhoto';
+import VerificationGuide from './pages/camera/verification/VerificationGuide';
 import VerificationPage from './pages/camera/verification/VerificationPage';
 import VerificationPhoto from './pages/camera/verification/VerificationPhoto';
 
@@ -15,6 +16,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Login />} />
       <Route path='/signup/guide' element={<SignUpGuide />} />
+      <Route path='/verification/guide' element={<VerificationGuide />} />
       <Route path='/signup/camera' element={<Camera />} />
       <Route path='/verification/camera' element={<VerificationPage />} />
       <Route path='/signup/photo' element={<DisplayPhoto />} />
