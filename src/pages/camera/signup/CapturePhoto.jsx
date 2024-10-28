@@ -65,8 +65,8 @@ function CapturePhoto({ email }) {
         onFrame: async () => {
           await faceMeshInstance.send({ image: videoRef.current });
         },
-        width: 640,
-        height: 480,
+        width: 353,
+        height: 373,
       });
       camera.start();
     }
@@ -144,24 +144,33 @@ function CapturePhoto({ email }) {
       console.log('email : ' + email);
 
       // 이미지를 새로운 페이지로 전달하고 이동
-      navigate('/photo/signup', { state: { photo: imageDataUrl, email } });
+      navigate('/signup/photo', { state: { photo: imageDataUrl, email } });
     }
   };
 
   useEffect(() => {
-    startCamera(); // 컴포넌트가 마운트될 때 카메라 시작
-    startFaceMesh(); // MediaPipe Face Mesh 시작
+    // 1초 딜레이를 주고 카메라를 시작
+    const timer = setTimeout(() => {
+      startCamera(); // 컴포넌트가 마운트될 때 카메라 시작
+      startFaceMesh(); // MediaPipe Face Mesh 시작
+    }, 1000);
+    
     return () => {
+      clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
       stopStream(); // 컴포넌트가 언마운트될 때 스트림 종료
     };
   }, [startCamera, startFaceMesh]);
 
   return (
     <div>
-      <h1>Take a Photo by Blinking Twice</h1>
-
       {/* 비디오 스트림 */}
-      <video ref={videoRef} autoPlay playsInline style={{ width: '100%', maxHeight: '300px' }} />
+      <video ref={videoRef} autoPlay playsInline style={{ 
+        width: '100%', 
+        height: '100%', 
+        objectFit: 'cover',
+        borderRadius: '15px',
+        border: '2px solid #fff'
+      }} />
 
       {/* Canvas 요소 - 캡처용 (화면에 보이지 않음) */}
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>

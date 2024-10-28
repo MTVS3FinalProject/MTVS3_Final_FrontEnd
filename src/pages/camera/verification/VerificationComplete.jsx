@@ -1,0 +1,47 @@
+import styled from 'styled-components';
+
+import LogoImage from '../../../assets/login/logo.png';
+
+function VerificationComplete() {
+    return (
+        <PageContainer>
+            <MessageContainer>
+                <LogoImg src={LogoImage} alt="Logo" />
+                <SuccessMessage>신원 인증이 정상처리 되었습니다</SuccessMessage>
+                <GuideMessage>Ticketaka에서 결제를 완료해주세요</GuideMessage>
+            </MessageContainer>
+        </PageContainer>
+    );
+}
+
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #0d1117;
+    height: 100vh;
+    color: white;
+`;
+
+const MessageContainer = styled.div`
+    text-align: center;
+    padding-bottom: 3rem;
+`;
+
+const LogoImg = styled.img`
+    width: 50%; /* 로고 크기 조정 */
+`;
+
+const SuccessMessage = styled.p`
+    font-size: 1.2rem;
+    color: #28a745; // 초록색으로 성공 메시지 강조
+    margin-bottom: 1rem;
+`;
+
+const GuideMessage = styled.p`
+    font-size: 1rem;
+    color: #ffffff;
+`;
+
+export default VerificationComplete;
