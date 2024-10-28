@@ -72,12 +72,12 @@ const Title = styled.div`
 
 const GridContainer = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
     width: 100%;
     justify-items: center; /* 수평 중앙 정렬 */
     align-items: center;  /* 수직 중앙 정렬 */
     padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
 `;
 
 const GuideImage = styled.img`
