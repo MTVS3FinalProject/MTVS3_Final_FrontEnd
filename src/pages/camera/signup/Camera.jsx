@@ -22,7 +22,7 @@ function Camera() {
       <MainContent>
         <Title>신원 인증 등록</Title>
         {email ? <CapturePhoto email={email} /> : <LoadingText>Loading..</LoadingText>}
-        <BlinkText>눈을 두번 깜빡이면 촬영 완료</BlinkText>
+        <BlinkText>눈을 두번 깜빡이면 촬영이 진행됩니다.</BlinkText>
       </MainContent>
     </PageContainer>
   );

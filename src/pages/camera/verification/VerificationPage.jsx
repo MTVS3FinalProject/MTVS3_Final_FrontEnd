@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import CaptureVerificationPhoto from './CaptureVerificationPhoto.jsx';
 
 function VerificationPage() {
@@ -7,7 +8,6 @@ function VerificationPage() {
   const [userCode, setUserCode] = useState('');
 
   useEffect(() => {
-    // QR 코드에서 userCode 정보를 쿼리 파라미터로 가져옴
     const queryParams = new URLSearchParams(location.search);
     const userCodeFromQR = queryParams.get('userCode');
     
@@ -17,53 +17,51 @@ function VerificationPage() {
   }, [location]);
 
   return (
-    <div style={styles.pageContainer}>
-      <header style={styles.header}>
-        <h1>Member Verification Page</h1>
-      </header>
-      
-      <main style={styles.mainContent}>
-        {/* 카메라 컴포넌트에 memberId 정보를 전달 */}
-        {userCode ? <CaptureVerificationPhoto userCode={userCode} /> : <p>Loding..</p>}
-      </main>
-
-      <footer style={styles.footer}>
-        <p>&copy; 2024 My App</p>
-      </footer>
-    </div>
+    <PageContainer>
+      <MainContent>
+        <Title>신원 인증</Title>
+        {userCode ? <CaptureVerificationPhoto userCode={userCode} /> : <LoadingText>Loading..</LoadingText>}
+        <BlinkText>눈을 두번 깜빡이면 촬영이 진행됩니다.</BlinkText>
+      </MainContent>
+    </PageContainer>
   );
 }
 
-const styles = {
-  pageContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    textAlign: 'center',
-    fontFamily: 'Arial, sans-serif',
-  },
-  header: {
-    backgroundColor: '#282c34',
-    color: 'white',
-    padding: '20px',
-    width: '100%',
-  },
-  mainContent: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '20px',
-  },
-  footer: {
-    backgroundColor: '#282c34',
-    color: 'white',
-    padding: '10px',
-    width: '100%',
-  },
-};
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: #0d1117;
+  color: white;
+`;
+
+const Title = styled.div`
+  color: #fff;
+  padding-top: 5rem;
+`;
+
+const MainContent = styled.main`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  gap: 1rem;
+  margin-bottom: 8rem;
+`;
+
+const BlinkText = styled.p`
+  color: #ff4d4f;
+  font-size: 1rem;
+`;
+
+const LoadingText = styled.p`
+  color: #ffffff;
+  font-size: 1.2rem;
+`;
 
 export default VerificationPage;
