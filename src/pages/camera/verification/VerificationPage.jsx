@@ -53,6 +53,7 @@ const PageContainer = styled.div`
 
 const Title = styled.div`
   color: #fff;
+  font-size: larger;
   padding-top: 5rem;
 `;
 

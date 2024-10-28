@@ -125,7 +125,7 @@ function DisplayPhoto() {
   };
 
   const handleRetry = () => {
-    navigate(`/signup/guide?userCode=${email}`); // 재시도 시 설정된 페이지로 이동
+    navigate(`/signup/guide?email=${email}`); // 재시도 시 설정된 페이지로 이동
   };
 
   const closeModal = () => {
@@ -207,6 +207,7 @@ const PageContainer = styled.div`
 
 const Title = styled.div`
   color: #ffffff;
+  font-size: larger;
   margin-bottom: 1rem;
 `;
 
@@ -216,6 +217,8 @@ const ContentContainer = styled.div`
   align-items: center;
   gap: 1rem;
   width: 80%;
+  min-height: 80vh; /* 전체 높이를 일정하게 유지 */
+  justify-content: space-between; /* 위아래 요소를 양쪽 끝으로 배치 */
 `;
 
 const PhotoContainer = styled.div`
@@ -276,7 +279,7 @@ const ButtonContainer = styled.div`
 const UploadButton = styled.button`
   background-color: #2ea043;
   color: white;
-  padding: 0.8rem 0;
+  padding: 0.3rem 0;
   border: none;
   border-radius: 25px;
   font-size: 1rem;
@@ -296,7 +299,7 @@ const UploadButton = styled.button`
 const RetryButton = styled.button`
   background-color: #ff4d4f;
   color: white;
-  padding: 0.8rem 0;
+  padding: 0.3rem 0;
   border: none;
   border-radius: 25px;
   font-size: 1rem;

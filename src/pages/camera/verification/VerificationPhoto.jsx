@@ -104,22 +104,24 @@ function VerificationPhoto() {
           <PhotoContainer>
             <CapturedImage src={photo} alt="Captured" />
           </PhotoContainer>
-          <Label>2차 비밀번호 입력</Label>
-          <PasswordInputContainer>
-            {secondPwd.map((digit, idx) => (
-              <PasswordInput
-                key={idx}
-                type='password'
-                inputMode='numeric'
-                value={digit}
-                onChange={(e) => handlePwdChange(e, idx)}
-                onKeyDown={(e) => handleKeyDown(e, idx)}
-                maxLength={1}
-                ref={(el) => (inputRefs.current[idx] = el)}
-              />
-            ))}
-          </PasswordInputContainer>
-          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          <PasswordContainer>
+            <Label>2차 비밀번호 입력</Label>
+            <PasswordInputContainer>
+              {secondPwd.map((digit, idx) => (
+                <PasswordInput
+                  key={idx}
+                  type='password'
+                  inputMode='numeric'
+                  value={digit}
+                  onChange={(e) => handlePwdChange(e, idx)}
+                  onKeyDown={(e) => handleKeyDown(e, idx)}
+                  maxLength={1}
+                  ref={(el) => (inputRefs.current[idx] = el)}
+                />
+              ))}
+            </PasswordInputContainer>
+            </PasswordContainer>
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
           <ButtonContainer>
             <UploadButton onClick={handleUploadClick} disabled={isUploading}>
               {isUploading ? '신원 인증 중...' : '인증하기'}
@@ -153,6 +155,7 @@ const PageContainer = styled.div`
 
 const Title = styled.div`
   color: #ffffff;
+  font-size: larger;
   margin-bottom: 1rem;
 `;
 
@@ -162,11 +165,13 @@ const ContentContainer = styled.div`
   align-items: center;
   gap: 1rem;
   width: 80%;
+  min-height: 80vh; /* 전체 높이를 일정하게 유지 */
+  justify-content: space-between; /* 위아래 요소를 양쪽 끝으로 배치 */
 `;
 
 const PhotoContainer = styled.div`
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -188,10 +193,14 @@ const Label = styled.div`
   margin-bottom: 0.5rem;
 `;
 
+const PasswordContainer = styled.div`
+  padding-top: 2rem;
+`;
+
 const PasswordInputContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 0.5rem;
 `;
 
 const PasswordInput = styled.input`
@@ -212,17 +221,17 @@ const ErrorMessage = styled.p`
 `;
 
 const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 0.5rem;
-  margin-top: 2rem;
+display: flex;
+flex-direction: column;
+width: 100%;
+gap: 1rem;
+margin-top: 1rem;
 `;
 
 const UploadButton = styled.button`
   background-color: #2ea043;
   color: white;
-  padding: 0.8rem 0;
+  padding: 0.5rem 0;
   border: none;
   border-radius: 25px;
   font-size: 1rem;
@@ -242,7 +251,7 @@ const UploadButton = styled.button`
 const RetryButton = styled.button`
   background-color: #ff4d4f;
   color: white;
-  padding: 0.8rem 0;
+  padding: 0.5rem 0;
   border: none;
   border-radius: 25px;
   font-size: 1rem;

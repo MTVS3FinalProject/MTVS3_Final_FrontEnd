@@ -67,6 +67,7 @@ const MainContent = styled.main`
 
 const Title = styled.div`
     color: #fff;
+    font-size: larger;
     padding-bottom: 3rem;
 `;
 
