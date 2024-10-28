@@ -169,7 +169,6 @@ function CapturePhoto({ email }) {
 
       {/* Canvas 요소 - 캡처용 (화면에 보이지 않음) */}
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
-
     </div>
   );
 }
