@@ -25,7 +25,7 @@ const Login = () => {
         <LoginContainer>
             <LoginForm>
                 <LogoContainer>
-                    <LogoImg src={LogoImage} alt="Chick" />
+                    <LogoImg src={LogoImage} alt="Logo" />
                     <InputContainer>
                         <InputDescription>E-mail</InputDescription>
                         <Input
