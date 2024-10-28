@@ -224,14 +224,14 @@ const ButtonContainer = styled.div`
 display: flex;
 flex-direction: column;
 width: 100%;
-gap: 1rem;
-margin-top: 1rem;
+gap: 0.5rem;
+margin-top: 2rem;
 `;
 
 const UploadButton = styled.button`
   background-color: #2ea043;
   color: white;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
   border: none;
   border-radius: 25px;
   font-size: 1rem;
@@ -251,7 +251,7 @@ const UploadButton = styled.button`
 const RetryButton = styled.button`
   background-color: #ff4d4f;
   color: white;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
   border: none;
   border-radius: 25px;
   font-size: 1rem;
