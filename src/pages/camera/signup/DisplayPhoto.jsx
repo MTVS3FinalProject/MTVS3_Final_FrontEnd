@@ -113,9 +113,9 @@ function DisplayPhoto() {
 
   return (
     <PageContainer>
-      <Title>신원 인증 등록</Title>
       {photo ? (
         <ContentContainer>
+          <Title>신원 인증 등록</Title>
           <PhotoContainer>
             <CapturedImage src={photo} alt="Captured" />
           </PhotoContainer>
@@ -166,16 +166,16 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: #0d1117;
   height: 100vh;
   color: white;
   padding-top: 2rem;
 `;
 
-const Title = styled.h1`
+const Title = styled.div`
   color: #ffffff;
   margin-bottom: 1rem;
-  font-size: 1.5rem;
 `;
 
 const ContentContainer = styled.div`
@@ -187,8 +187,8 @@ const ContentContainer = styled.div`
 `;
 
 const PhotoContainer = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 90%;
+  height: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -238,6 +238,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 0.5rem;
+  margin-top: 2rem;
 `;
 
 const UploadButton = styled.button`
