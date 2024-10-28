@@ -124,6 +124,10 @@ function DisplayPhoto() {
     }
   };
 
+  const handleRetry = () => {
+    navigate(`/signup/guide?userCode=${email}`); // 재시도 시 설정된 페이지로 이동
+  };
+
   const closeModal = () => {
     if (modalNavigateTo) {
       navigate(modalNavigateTo); // 성공 시 설정된 페이지로 이동
@@ -174,7 +178,7 @@ function DisplayPhoto() {
             <UploadButton onClick={handleUploadClick} disabled={isUploading || errorMessage}>
               {isUploading ? '신원 인증 중...' : '등록하기'}
             </UploadButton>
-            <RetryButton onClick={() => window.location.reload()}>재시도</RetryButton>
+            <RetryButton onClick={handleRetry}>재시도</RetryButton>
           </ButtonContainer>
         </ContentContainer>
       ) : (

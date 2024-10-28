@@ -11,6 +11,7 @@ import SignUpComplete from './pages/camera/signup/SignUpComplete';
 import VerificationGuide from './pages/camera/verification/VerificationGuide';
 import VerificationPage from './pages/camera/verification/VerificationPage';
 import VerificationPhoto from './pages/camera/verification/VerificationPhoto';
+import VerificationComplete from './pages/camera/verification/VerificationComplete';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path='/signup/photo' element={<DisplayPhoto />} />
       <Route path='/verification/photo' element={<VerificationPhoto />} />
       <Route path='/signup/complete' element={<SignUpComplete />} />
+      <Route path='/verification/complete' element={<VerificationComplete />} />
     </Routes>
   )
 }

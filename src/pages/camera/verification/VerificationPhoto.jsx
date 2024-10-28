@@ -85,6 +85,10 @@ function VerificationPhoto() {
     }
   };
 
+  const handleRetry = () => {
+    navigate(`/verification/guide?userCode=${userCode}`); // 재시도 시 설정된 페이지로 이동
+  };
+
   const closeModal = () => {
     if (modalNavigateTo) {
       navigate(modalNavigateTo); // 성공 시 설정된 페이지로 이동
@@ -115,11 +119,12 @@ function VerificationPhoto() {
               />
             ))}
           </PasswordInputContainer>
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
           <ButtonContainer>
             <UploadButton onClick={handleUploadClick} disabled={isUploading}>
               {isUploading ? '신원 인증 중...' : '인증하기'}
             </UploadButton>
-            <RetryButton onClick={() => window.location.reload()}>재시도</RetryButton>
+            <RetryButton onClick={handleRetry}>재시도</RetryButton>
           </ButtonContainer>
         </ContentContainer>
       ) : (
@@ -198,6 +203,12 @@ const PasswordInput = styled.input`
   border: 1px solid #ffffff;
   background-color: #1c1f2b;
   color: #ffffff;
+`;
+
+const ErrorMessage = styled.p`
+  color: #ff4d4f;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
 `;
 
 const ButtonContainer = styled.div`
