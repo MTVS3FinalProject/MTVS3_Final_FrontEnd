@@ -65,8 +65,8 @@ function CapturePhoto({ email }) {
         onFrame: async () => {
           await faceMeshInstance.send({ image: videoRef.current });
         },
-        width: 640,
-        height: 480,
+        width: 353,
+        height: 373,
       });
       camera.start();
     }
@@ -158,13 +158,18 @@ function CapturePhoto({ email }) {
 
   return (
     <div>
-      <h1>Take a Photo by Blinking Twice</h1>
-
       {/* 비디오 스트림 */}
-      <video ref={videoRef} autoPlay playsInline style={{ width: '100%', maxHeight: '300px' }} />
+      <video ref={videoRef} autoPlay playsInline style={{ 
+        width: '100%', 
+        height: '100%', 
+        objectFit: 'cover',
+        borderRadius: '15px',
+        border: '2px solid #fff'
+      }} />
 
       {/* Canvas 요소 - 캡처용 (화면에 보이지 않음) */}
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+
     </div>
   );
 }
