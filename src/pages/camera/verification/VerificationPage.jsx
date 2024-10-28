@@ -6,6 +6,7 @@ import CaptureVerificationPhoto from './CaptureVerificationPhoto';
 function VerificationPage() {
   const location = useLocation();
   const [userCode, setUserCode] = useState('');
+  const [isReadyToCapture, setIsReadyToCapture] = useState(false);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -16,11 +17,23 @@ function VerificationPage() {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (userCode) {
+      // 5초 후에 캡처 동작을 시작하도록 타이머 설정
+      const timer = setTimeout(() => {
+        setIsReadyToCapture(true);
+      }, 1000);
+
+      // 컴포넌트가 언마운트될 때 타이머를 정리
+      return () => clearTimeout(timer);
+    }
+  }, [userCode]);
+
   return (
     <PageContainer>
       <MainContent>
         <Title>신원 인증</Title>
-        {userCode ? <CaptureVerificationPhoto userCode={userCode} /> : <LoadingText>Loading..</LoadingText>}
+        {isReadyToCapture && userCode ? <CaptureVerificationPhoto userCode={userCode} /> : <LoadingText>Loading..</LoadingText>}
         <BlinkText>눈을 두번 깜빡이면 촬영이 진행됩니다.</BlinkText>
       </MainContent>
     </PageContainer>

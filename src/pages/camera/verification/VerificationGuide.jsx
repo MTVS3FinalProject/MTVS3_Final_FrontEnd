@@ -21,7 +21,7 @@ function VerificationGuide() {
 
     const handleNext = () => {
         if (userCode) {
-            navigate(`/VerificationGuide/camera?userCode=${userCode}`);
+            navigate(`/verification/camera?userCode=${userCode}`);
         } else {
             alert('올바른 이메일 정보가 없습니다.');
         }

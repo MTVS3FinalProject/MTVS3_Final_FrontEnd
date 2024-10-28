@@ -6,6 +6,7 @@ import CapturePhoto from './CapturePhoto';
 function Camera() {
   const location = useLocation();
   const [email, setEmail] = useState('');
+  const [isReadyToCapture, setIsReadyToCapture] = useState(false);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -17,11 +18,23 @@ function Camera() {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (email) {
+      // 5초 후에 캡처 동작을 시작하도록 타이머 설정
+      const timer = setTimeout(() => {
+        setIsReadyToCapture(true);
+      }, 1000);
+
+      // 컴포넌트가 언마운트될 때 타이머를 정리
+      return () => clearTimeout(timer);
+    }
+  }, [email]);
+
   return (
     <PageContainer>
       <MainContent>
         <Title>신원 인증 등록</Title>
-        {email ? <CapturePhoto email={email} /> : <LoadingText>Loading..</LoadingText>}
+        {isReadyToCapture && email ? <CapturePhoto email={email} /> : <LoadingText>Loading..</LoadingText>}
         <BlinkText>눈을 두번 깜빡이면 촬영이 진행됩니다.</BlinkText>
       </MainContent>
     </PageContainer>
