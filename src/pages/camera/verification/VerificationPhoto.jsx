@@ -1,28 +1,32 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import { uploadVerificationPhoto } from '../../../api/camera';
 import styled from 'styled-components';
-
 import Modal from '../../../components/Modal';
 
 function VerificationPhoto() {
   const location = useLocation();
+  const navigate = useNavigate(); // 페이지 이동을 위해 추가
   const { photo, userCode } = location.state || {};
   const [secondPwd, setSecondPwd] = useState(['', '', '', '']);
   const [isUploading, setIsUploading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지 상태 추가
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalMessage, setModalMessage] = useState('');
+  const [modalNavigateTo, setModalNavigateTo] = useState(null); // navigate 주소를 관리
+  
   const inputRefs = useRef([]);
 
   const generateFileName = () => {
     const now = new Date();
     const timestamp = now.getFullYear().toString() +
-                      (now.getMonth() + 1).toString().padStart(2, '0') +
-                      now.getDate().toString().padStart(2, '0') +
-                      now.getHours().toString().padStart(2, '0') +
-                      now.getMinutes().toString().padStart(2, '0') +
-                      now.getSeconds().toString().padStart(2, '0');
+      (now.getMonth() + 1).toString().padStart(2, '0') +
+      now.getDate().toString().padStart(2, '0') +
+      now.getHours().toString().padStart(2, '0') +
+      now.getMinutes().toString().padStart(2, '0') +
+      now.getSeconds().toString().padStart(2, '0');
     return `verification-${timestamp}.png`;
   };
 
@@ -30,21 +34,16 @@ function VerificationPhoto() {
     const fullPwd = secondPwd.join('');
 
     if (!photo || !fullPwd) {
-      setModalTitle('오류');
-      setModalMessage('사진과 4자리 비밀번호가 필요합니다.');
-      setIsModalOpen(true);
+      setErrorMessage('사진과 4자리 비밀번호가 필요합니다.');
       return;
     }
 
     if (fullPwd.length !== 4 || isNaN(fullPwd)) {
-      setModalTitle('오류');
-      setModalMessage('비밀번호는 정확히 4자리 숫자여야 합니다.');
-      setIsModalOpen(true);
+      setErrorMessage('비밀번호는 정확히 4자리 숫자여야 합니다.');
       return;
     }
 
-    console.log('userCode : ' + userCode);
-    console.log('secondPwd : ' + fullPwd);
+    setErrorMessage('');
 
     const response = await fetch(photo);
     const blob = await response.blob();
@@ -55,11 +54,13 @@ function VerificationPhoto() {
       setIsUploading(true);
       await uploadVerificationPhoto(file, userCode, fullPwd);
       setModalTitle('성공');
-      setModalMessage('신원 인증 사진이 성공적으로 업로드되었습니다!');
+      setModalMessage('신원 인증에 성공하였습니다!');
+      setModalNavigateTo('/verification/complete'); // 성공 시 이동할 페이지 설정
     } catch (error) {
       console.error('Error during upload:', error);
-      setModalTitle('오류');
-      setModalMessage(error.response?.data?.error?.message || '사진 업로드에 실패했습니다.');
+      setModalTitle('실패');
+      setModalMessage(error.response?.data?.error?.message || '신원 인증에 실패했습니다.');
+      setModalNavigateTo(null); // 실패 시 모달 닫기만
     } finally {
       setIsUploading(false);
       setIsModalOpen(true); // 업로드 성공 또는 실패 후 모달 열기
@@ -84,7 +85,12 @@ function VerificationPhoto() {
     }
   };
 
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    if (modalNavigateTo) {
+      navigate(modalNavigateTo); // 성공 시 설정된 페이지로 이동
+    }
+    setIsModalOpen(false);
+  };
 
   return (
     <PageContainer>

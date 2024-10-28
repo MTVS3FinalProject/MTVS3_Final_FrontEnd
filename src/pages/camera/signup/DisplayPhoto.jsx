@@ -1,15 +1,23 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { uploadPhoto } from '../../../api/camera';
 import styled from 'styled-components';
+import Modal from '../../../components/Modal';
 
 function DisplayPhoto() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { photo, email } = location.state || {};
   const [secondPwd, setSecondPwd] = useState(['', '', '', '']);
   const [confirmPwd, setConfirmPwd] = useState(['', '', '', '']);
   const [isUploading, setIsUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지 상태 추가
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalNavigateTo, setModalNavigateTo] = useState(null); // navigate 주소를 관리
+
   const inputRefs = useRef([]);
   const confirmInputRefs = useRef([]);
 
@@ -71,12 +79,17 @@ function DisplayPhoto() {
     try {
       setIsUploading(true);
       await uploadPhoto(file, email, fullPwd);
-      alert('Photo uploaded successfully!');
+      setModalTitle('성공');
+      setModalMessage('신원 인증 등록에 성공하였습니다!');
+      setModalNavigateTo('/signup/complete'); // 성공 시 이동할 페이지 설정
     } catch (error) {
       console.error('Error during upload:', error);
-      setErrorMessage('Failed to upload the photo.');
+      setModalTitle('실패');
+      setModalMessage(error.response?.data?.error?.message || '신원 인증 등록에 실패했습니다.');
+      setModalNavigateTo(null); // 실패 시 모달 닫기만
     } finally {
       setIsUploading(false);
+      setIsModalOpen(true); // 업로드 성공 또는 실패 후 모달 열기
     }
   };
 
@@ -109,6 +122,13 @@ function DisplayPhoto() {
         confirmInputRefs.current[idx - 1].focus();
       }
     }
+  };
+
+  const closeModal = () => {
+    if (modalNavigateTo) {
+      navigate(modalNavigateTo); // 성공 시 설정된 페이지로 이동
+    }
+    setIsModalOpen(false);
   };
 
   return (
@@ -160,6 +180,12 @@ function DisplayPhoto() {
       ) : (
         <p>사진이 없습니다.</p>
       )}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        message={modalMessage}
+      />
     </PageContainer>
   );
 }

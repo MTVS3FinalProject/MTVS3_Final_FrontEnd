@@ -1,25 +1,39 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
-function Modal({ isOpen, onClose, title, message }) {
+function Modal({ isOpen, onClose, title, message, navigateTo }) {
+    const navigate = useNavigate();
+
     if (!isOpen) return null;
+
+    const handleButtonClick = () => {
+        if (navigateTo) {
+            navigate(navigateTo); // 특정 페이지로 이동
+        } else {
+            onClose(); // 단순히 모달 닫기
+        }
+    };
 
     return (
         <ModalOverlay>
-        <ModalContent>
-            <ModalTitle>{title}</ModalTitle>
-            <ModalMessage>{message}</ModalMessage>
-            <CloseButton onClick={onClose}>확인</CloseButton>
-        </ModalContent>
+            <ModalContent>
+                <ModalTitle>{title}</ModalTitle>
+                <ModalMessage>{message}</ModalMessage>
+                <CloseButton onClick={handleButtonClick}>
+                    {navigateTo ? '이동하기' : '확인'}
+                </CloseButton>
+            </ModalContent>
         </ModalOverlay>
     );
 }
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired, // isOpen은 반드시 boolean 값이어야 함
-  onClose: PropTypes.func.isRequired, // onClose는 반드시 함수여야 함
-  title: PropTypes.string.isRequired, // title은 반드시 문자열이어야 함
-  message: PropTypes.string.isRequired, // message는 반드시 문자열이어야 함
+    isOpen: PropTypes.bool.isRequired, // isOpen은 반드시 boolean 값이어야 함
+    onClose: PropTypes.func.isRequired, // onClose는 반드시 함수여야 함
+    title: PropTypes.string.isRequired, // title은 반드시 문자열이어야 함
+    message: PropTypes.string.isRequired, // message는 반드시 문자열이어야 함
+    navigateTo: PropTypes.string, // 특정 페이지로 이동하기 위한 URL (옵션)
 };
 
 const ModalOverlay = styled.div`
@@ -53,7 +67,7 @@ const ModalMessage = styled.p`
 
 const CloseButton = styled.button`
     padding: 0.6rem 1rem;
-    background-color: #2ea043;
+    background-color: #ff4d4f;
     color: white;
     border: none;
     border-radius: 10px;
@@ -61,7 +75,7 @@ const CloseButton = styled.button`
     transition: background-color 0.3s ease;
 
     &:hover {
-        background-color: #2c974b;
+        background-color: #e43a3d;
     }
 `;
 
