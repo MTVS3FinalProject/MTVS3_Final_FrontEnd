@@ -20,7 +20,7 @@ const PageContainer = styled.div`
     align-items: center;
     justify-content: center;
     background-color: #0d1117;
-    height: 100vh;
+    height: 100dvh;
     color: white;
 `;
 
