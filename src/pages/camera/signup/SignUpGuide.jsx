@@ -102,8 +102,8 @@ const GuideImageWrapper = styled.div`
 `;
 
 const GuideImage = styled.img`
-    width: 80px;
-    height: 80px;
+    width: 90%;
+    height: 85%;
     border-radius: 50%;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border: 2px solid ${props => props.alt === "올바른 사진" ? "#00ff00" : "#ff0000"};
@@ -111,6 +111,7 @@ const GuideImage = styled.img`
 
 const GuideText = styled.div`
     margin-top: 0.5rem;
+    padding-bottom: 1rem;
     font-size: 0.85rem;
     color: #ffffff;
     text-align: center;
@@ -125,7 +126,7 @@ const Button = styled.button`
     border-radius: 25px;
     font-size: 1rem;
     cursor: pointer;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     transition: background-color 0.3s ease;
 
     &:hover {
