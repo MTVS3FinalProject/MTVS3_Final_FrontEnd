@@ -40,8 +40,8 @@ function VerificationGuide() {
                         <GuideText>마스크 사용 X</GuideText>
                     </GuideImageWrapper>
                     <GuideImageWrapper>
-                        <GuideImage src={GlassesImage} alt="안경 불러쓴 사진" />
-                        <GuideText>안경 불러쓴 사진 X</GuideText>
+                        <GuideImage src={GlassesImage} alt="안경 눌러쓴 사진" />
+                        <GuideText>안경 눌러쓴 사진 X</GuideText>
                     </GuideImageWrapper>
                     <GuideImageWrapper>
                         <GuideImage src={LightingImage} alt="과도한 조명" />
