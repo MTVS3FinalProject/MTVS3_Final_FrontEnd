@@ -272,7 +272,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 0.5rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 `;
 
 const UploadButton = styled.button`
