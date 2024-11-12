@@ -4,20 +4,22 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 
 const storeTokens = (authorization, refreshToken) => {
 
-    if (authorization && authorization.startsWith('Bearer ')) {
-        const token = authorization.split(' ')[1];
-        localStorage.setItem('token', token);
-        console.log('토큰 저장 성공:', token);
+    console.log('authorization: ' + authorization);
+
+    if (authorization) {
+        localStorage.setItem('token', authorization);
+        console.log('토큰 저장 성공:', authorization);
     } else {
-        console.error('Authorization 헤더에 토큰이 없습니다.');
+        console.error('Authorization 토큰이 없습니다.');
     }
 
-    if (refreshToken && refreshToken.startsWith('Bearer ')) {
-        const refresh = refreshToken.split(' ')[1];
-        localStorage.setItem('refresh', refresh);
-        console.log('리프레시 토큰 저장 성공:', refresh);
+    console.log('refreshToken: ' + refreshToken);
+
+    if (refreshToken) {
+        localStorage.setItem('refresh', refreshToken);
+        console.log('리프레시 토큰 저장 성공:', refreshToken);
     } else {
-        console.error('Refresh-Token 헤더에 토큰이 없습니다.');
+        console.error('Refresh-Token 토큰이 없습니다.');
     }
 };
 
@@ -33,11 +35,11 @@ export const login = async (email, password) => {
 
     const res = await axios.post(`${baseURL}/auth/login`, authDTO);
 
-    // 헤더에서 토큰 정보 추출
-    const token = res.headers['Authorization'] || res.headers['authorization'];
-    const refresh = res.headers['Refresh-Token'] || res.headers['refresh-token'];
+    const { authTokenDTO } = res.data.response;
+    const token = authTokenDTO.accessToken;
+    const refresh = authTokenDTO.refreshToken;
 
-    console.log(res.headers);
+    console.log(res.data);
     console.log('token: ' + token);
     console.log('refresh: ' + refresh);
 
