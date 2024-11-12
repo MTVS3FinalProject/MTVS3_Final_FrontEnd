@@ -68,12 +68,12 @@ const TicketListPage = () => {
                 tickets.length > 0 && (
                     <TicketDisplay onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
                         <TicketCard key={tickets[currentPage].ticketId}>
+                            <TicketImage src={tickets[currentPage].ticketImage} alt="Ticket Image" />
                             <EventTitle>{tickets[currentPage].concertInfo.concertName}</EventTitle>
                             <EventDetails>
                                 Date: {`${tickets[currentPage].concertInfo.year}-${tickets[currentPage].concertInfo.month}-${tickets[currentPage].concertInfo.day}`} | Time: {tickets[currentPage].concertInfo.time}
                             </EventDetails>
                             <SeatInfo>Seat: {tickets[currentPage].seatInfo}</SeatInfo>
-                            <TicketImage src={tickets[currentPage].ticketImage} alt="Ticket Image" />
                         </TicketCard>
                     </TicketDisplay>
                 )
@@ -112,22 +112,22 @@ const TicketDisplay = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     position: relative;
     touch-action: pan-y; // 수직 스크롤 방지
 `;
 
 const TicketCard = styled.div`
-    width: 70vw; // 화면 너비의 80% 사용
-    height: 70vh; // 화면 높이의 80% 사용
-    padding: 20px;
+    width: 70vw; // 화면 너비의 70% 사용
+    height: 80vh; // 화면 높이의 70% 사용
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    background-color: white;
+    background-color: 0d1117;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; // 위에서부터 아래로 정렬
+    align-items: center; // 중앙 정렬
     transform-origin: center;
 `;
 
@@ -137,7 +137,6 @@ const ToggleContainer = styled.div`
     align-items: center;
     justify-content: center; // 가운데 정렬
     gap: 10px;
-    margin-top: auto; // 맨 하단에 위치
     padding-bottom: 2rem;
     width: 100%;
     background-color: #0d1117;
@@ -158,7 +157,7 @@ const ArrowButton = styled.button`
     background-color: transparent;
     border: none;
     font-size: 1.5rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
     color: #aaa;
     cursor: pointer;
     transition: color 0.3s;
@@ -171,8 +170,7 @@ const ArrowButton = styled.button`
     }
 `;
 
-const EventTitle = styled.h1`
-    font-size: 24px;
+const EventTitle = styled.h3`
     margin-bottom: 10px;
 `;
 
@@ -186,8 +184,8 @@ const SeatInfo = styled.p`
 `;
 
 const TicketImage = styled.img`
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     margin-top: 20px;
 `;
 

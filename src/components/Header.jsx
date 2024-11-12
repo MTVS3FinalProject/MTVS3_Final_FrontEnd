@@ -17,7 +17,7 @@ const HeaderContainer = styled.div`
     width: 100%;
     height: 60px;
     background-color: #0d1117; // 배경색을 원하는 색상으로 변경하세요
-    padding: 0 20px; // 좌우 패딩
+    padding: 1rem;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
