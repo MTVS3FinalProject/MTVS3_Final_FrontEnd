@@ -14,7 +14,7 @@ const TicketModal = ({ ticket, onClose }) => {
             <ModalContent onClick={(e) => e.stopPropagation()}>
                 <ImageContainer>
                     <TicketImage src={getBase64Image(ticket.ticketImage)} alt="Ticket Image" />
-                    {ticket.barcodeImage && <BarcodeImage src={ticket.barcodeImage} alt="Barcode Image" />} {/* Conditional Rendering */}
+                    <BarcodeImage src={ticket.barcodeImage} alt="Barcode Image" />
                 </ImageContainer>
             </ModalContent>
         </ModalOverlay>
@@ -23,8 +23,8 @@ const TicketModal = ({ ticket, onClose }) => {
 
 TicketModal.propTypes = {
     ticket: PropTypes.shape({
-        ticketImage: PropTypes.string.isRequired, // Expecting byte[] as a base64 string
-        barcodeImage: PropTypes.string // Optional
+        ticketImage: PropTypes.string.isRequired, 
+        barcodeImage: PropTypes.string 
     }).isRequired,
     onClose: PropTypes.func.isRequired
 };
@@ -43,42 +43,35 @@ const ModalOverlay = styled.div`
 
 const ModalContent = styled.div`
     background: #0d1117;
-    padding: 20px;
     border-radius: 8px;
-    width: 70vw; 
-    height: 70vh;
+    width: 80vw; 
+    height: 80vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* 수직 및 수평 중앙 정렬 */
-    box-sizing: border-box; /* 패딩 포함한 너비 계산 */
-    overflow: hidden; /* 스크롤을 없앰 */
+    justify-content: center; 
+    box-sizing: border-box; 
+    overflow: hidden; 
 `;
 
 const ImageContainer = styled.div`
     display: flex;
-    flex-direction: column; /* 이미지들을 세로로 배치 */
+    flex-direction: column; 
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
-    gap: 1rem; /* 이미지 간의 간격 */
 `;
 
 const TicketImage = styled.img`
-    max-width: 100%;
     max-height: 100%;
-    width: auto;
-    height: auto;
-    transform: rotate(90deg);
+    transform-origin: center center;
 `;
 
 const BarcodeImage = styled.img`
     max-width: 100%;
-    max-height: 100%;
-    width: auto;
     height: auto;
-    transform: rotate(90deg);
+    object-fit: contain; 
 `;
 
 export default TicketModal;

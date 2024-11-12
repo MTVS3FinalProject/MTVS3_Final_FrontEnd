@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import LogoImage from '../assets/login/logo.png';
+import LogoImage from '../assets/logo/white.png';
 
 import { login } from "../api/auth";
 
@@ -68,11 +68,11 @@ const LoginForm = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    background-color: #1b2230;
+    /* background-color: #1b2230; */
     padding: 1rem;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid #fff;
+    /* border: 1px solid #fff; */
     opacity: 0.8;
     margin-bottom: 1.5rem;
     gap: 1.5rem;
