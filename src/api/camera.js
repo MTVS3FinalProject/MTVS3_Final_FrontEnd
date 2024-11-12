@@ -1,4 +1,4 @@
-import { PostAxiosInstance } from "../axios/AxiosMethod";
+import axios from "axios";
 
 // 사진을 서버에 업로드하는 함수
 export const uploadPhoto = async (file, email, secondPwd) => {
@@ -15,7 +15,7 @@ export const uploadPhoto = async (file, email, secondPwd) => {
 
   try {
     // PostAxiosInstance를 사용하여 파일 업로드 요청
-    const response = await PostAxiosInstance('/face/recognition', formData);
+    const response = await axios.post('/face/recognition', formData);
 
     // 업로드 성공 시 반환할 데이터
     return response.data;
@@ -41,7 +41,7 @@ export const uploadVerificationPhoto = async (file, userCode, secondPwd) => {
 
   try {
     // PostAxiosInstance를 사용하여 파일 업로드 요청
-    const response = await PostAxiosInstance('/face/verification', formData);
+    const response = await axios.post('/face/verification', formData);
 
     // 업로드 성공 시 반환할 데이터
     return response.data;
