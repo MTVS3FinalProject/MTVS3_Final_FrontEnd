@@ -2,14 +2,20 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const TicketModal = ({ ticket, onClose }) => {
-    if (!ticket) return null; 
+    if (!ticket) return null;
+
+    // Convert byte array string to base64
+    const getBase64Image = (byteArrayString) => {
+        return `data:image/png;base64,${byteArrayString}`;
+    };
 
     return (
         <ModalOverlay onClick={onClose}>
             <ModalContent onClick={(e) => e.stopPropagation()}>
-                <TicketImage src={ticket.ticketImage} alt="Ticket Image" />
-                <BarcodeImage src={ticket.barcodeImage} alt="Barcode Image" />
-                <CloseButton onClick={onClose}>Close</CloseButton>
+                <ImageContainer>
+                    <TicketImage src={getBase64Image(ticket.ticketImage)} alt="Ticket Image" />
+                    {ticket.barcodeImage && <BarcodeImage src={ticket.barcodeImage} alt="Barcode Image" />} {/* Conditional Rendering */}
+                </ImageContainer>
             </ModalContent>
         </ModalOverlay>
     );
@@ -17,8 +23,8 @@ const TicketModal = ({ ticket, onClose }) => {
 
 TicketModal.propTypes = {
     ticket: PropTypes.shape({
-        ticketImage: PropTypes.string.isRequired,
-        barcodeImage: PropTypes.string.isRequired
+        ticketImage: PropTypes.string.isRequired, // Expecting byte[] as a base64 string
+        barcodeImage: PropTypes.string // Optional
     }).isRequired,
     onClose: PropTypes.func.isRequired
 };
@@ -36,39 +42,43 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-    background: #ffffff;
+    background: #0d1117;
     padding: 20px;
     border-radius: 8px;
-    max-width: 90%;
-    max-height: 80%;
-    overflow-y: auto;
+    width: 70vw; 
+    height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* 수직 및 수평 중앙 정렬 */
+    box-sizing: border-box; /* 패딩 포함한 너비 계산 */
+    overflow: hidden; /* 스크롤을 없앰 */
+`;
+
+const ImageContainer = styled.div`
+    display: flex;
+    flex-direction: column; /* 이미지들을 세로로 배치 */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 1rem; /* 이미지 간의 간격 */
 `;
 
 const TicketImage = styled.img`
-    width: 80%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
     height: auto;
-    margin-bottom: 1rem;
+    transform: rotate(90deg);
 `;
 
 const BarcodeImage = styled.img`
-    width: 70%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
     height: auto;
-    margin-bottom: 1rem;
-`;
-
-const CloseButton = styled.button`
-    padding: 0.5rem 1rem;
-    background: #e63946;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    &:hover {
-        background: #d62839;
-    }
+    transform: rotate(90deg);
 `;
 
 export default TicketModal;
