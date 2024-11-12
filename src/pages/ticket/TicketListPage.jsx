@@ -3,84 +3,73 @@ import { getTicketList } from '../../api/ticket';
 import styled from 'styled-components';
 
 import HeaderBar from '../../components/Header';
+import TicketModal from '../../components/ticket/TicketModal'; // Modal component import
 
 const TicketListPage = () => {
     const [ticketStatus, setTicketStatus] = useState('available'); // 'available' or 'used'
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
-    const [startX, setStartX] = useState(0); // 터치 시작 위치 저장
+    const [currentPage, setCurrentPage] = useState(0); // Current page state
+    const [showModal, setShowModal] = useState(false); // Modal state
+    const [selectedTicket, setSelectedTicket] = useState(null); // Selected ticket state
+    const itemsPerPage = 4; // Number of tickets per page (2x2 grid)
 
-    // Function to fetch tickets from the server
+    // Fetch tickets from the server
     const fetchTickets = async (status) => {
         setLoading(true);
         try {
             const response = await getTicketList(status);
-            // Assuming response has a 'response' field containing 'ticketDTOList'
             const ticketData = response?.response?.ticketDTOList || [];
             setTickets(ticketData);
         } catch (error) {
             console.error('Error fetching tickets:', error);
-            // Handle error messages as needed
         } finally {
             setLoading(false);
         }
     };
 
-    // Fetch tickets when the status changes
+    // Fetch tickets whenever the status changes
     useEffect(() => {
         fetchTickets(ticketStatus);
     }, [ticketStatus]);
 
-    // Navigation handlers
-    const handleNext = () => {
-        if (currentPage < tickets.length - 1) {
-            setCurrentPage(currentPage + 1);
-        }
+    // Calculate the paginated tickets
+    const paginatedTickets = tickets.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
+    // Modal handlers
+    const openModal = (ticket) => {
+        setSelectedTicket(ticket);
+        setShowModal(true);
     };
 
-    const handlePrevious = () => {
-        if (currentPage > 0) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    // Touch event handlers for slide navigation
-    const handleTouchStart = (e) => {
-        setStartX(e.touches[0].clientX);
-    };
-
-    const handleTouchEnd = (e) => {
-        const endX = e.changedTouches[0].clientX;
-        if (startX - endX > 50) {
-            handleNext(); // 오른쪽으로 슬라이드하면 다음 티켓
-        } else if (endX - startX > 50) {
-            handlePrevious(); // 왼쪽으로 슬라이드하면 이전 티켓
-        }
+    const closeModal = () => {
+        setShowModal(false);
+        setSelectedTicket(null);
     };
 
     return (
         <PageContainer>
-            <HeaderBar/>
+            <HeaderBar />
             {loading ? (
                 <LoadingText>Loading...</LoadingText>
             ) : (
-                tickets.length > 0 && (
-                    <TicketDisplay onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-                        <TicketCard key={tickets[currentPage].ticketId}>
-                            <TicketImage src={tickets[currentPage].ticketImage} alt="Ticket Image" />
-                            <EventTitle>{tickets[currentPage].concertInfo.concertName}</EventTitle>
-                            <EventDetails>
-                                Date: {`${tickets[currentPage].concertInfo.year}-${tickets[currentPage].concertInfo.month}-${tickets[currentPage].concertInfo.day}`} | Time: {tickets[currentPage].concertInfo.time}
-                            </EventDetails>
-                            <SeatInfo>Seat: {tickets[currentPage].seatInfo}</SeatInfo>
-                        </TicketCard>
+                paginatedTickets.length > 0 && (
+                    <TicketDisplay>
+                        {paginatedTickets.map((ticket) => (
+                            <TicketCard key={ticket.ticketId} onClick={() => openModal(ticket)}>
+                                <EventTitle>{ticket.concertInfo.concertName}</EventTitle>
+                                <EventDetails>
+                                    {`${ticket.concertInfo.year}/${ticket.concertInfo.month}/${ticket.concertInfo.day}`} {ticket.concertInfo.time}
+                                </EventDetails>
+                                <SeatInfo>{ticket.seatInfo}</SeatInfo>
+                            </TicketCard>
+                        ))}
                     </TicketDisplay>
                 )
             )}
 
             <ToggleContainer>
-                <ArrowButton onClick={handlePrevious} disabled={currentPage === 0}>
+                <ArrowButton onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 0}>
                     ◀
                 </ArrowButton>
                 <ToggleButton onClick={() => setTicketStatus('available')} active={ticketStatus === 'available'}>
@@ -89,14 +78,20 @@ const TicketListPage = () => {
                 <ToggleButton onClick={() => setTicketStatus('used')} active={ticketStatus === 'used'}>
                     사용 완료
                 </ToggleButton>
-                <ArrowButton onClick={handleNext} disabled={currentPage === tickets.length - 1}>
+                <ArrowButton
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    disabled={(currentPage + 1) * itemsPerPage >= tickets.length}
+                >
                     ▶
                 </ArrowButton>
             </ToggleContainer>
+
+            {showModal && <TicketModal ticket={selectedTicket} onClose={closeModal} />}
         </PageContainer>
     );
 };
 
+// Styled components
 const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -104,52 +99,67 @@ const PageContainer = styled.div`
     justify-content: flex-start;
     background-color: #0d1117;
     height: 100vh;
-    padding-top: 20px;
+    padding-top: 3rem;
+    position: relative; /* Make it relative for positioning child elements */
 `;
 
 const TicketDisplay = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    height: 90%;
-    position: relative;
-    touch-action: pan-y; // 수직 스크롤 방지
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 1rem; /* Adjust the gap between items as needed */
+    width: 100%;
+    margin: 3rem 1rem 3rem 1rem; /* Corrected margin syntax (no commas) */
+    padding: 1rem;
+    box-sizing: border-box; /* Ensure padding is included in total width */
+    justify-items: center; /* Center items horizontally within their grid cells */
+    align-items: center; /* Center items vertically within their grid cells */
 `;
 
 const TicketCard = styled.div`
-    width: 70vw; // 화면 너비의 70% 사용
-    height: 80vh; // 화면 높이의 70% 사용
+    width: 80%; /* Take full width of the grid cell */
+    height: auto; /* Maintain aspect ratio based on content */
+    aspect-ratio: 2 / 3; /* Maintain a consistent aspect ratio */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    background-color: 0d1117;
+    border: 1px solid #fff;
+    background-color: #0d1117;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; // 위에서부터 아래로 정렬
-    align-items: center; // 중앙 정렬
+    justify-content: center;
+    align-items: center;
     transform-origin: center;
+    cursor: pointer;
+    padding: 1rem;
+    color: #fff;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.05);
+    }
 `;
 
 const ToggleContainer = styled.div`
     display: flex;
-    flex-direction: row; // 수평 정렬
+    flex-direction: row;
     align-items: center;
-    justify-content: center; // 가운데 정렬
+    justify-content: center;
     gap: 10px;
-    padding-bottom: 2rem;
     width: 100%;
     background-color: #0d1117;
+    position: fixed; /* Fix at the bottom */
+    bottom: 0;
+    padding: 1rem 0;
 `;
 
 const ToggleButton = styled.span`
     cursor: pointer;
     font-size: 1rem;
-    color: ${(props) => (props.active ? '#555' : '#aaa')}; // 선택된 경우 진한 색상, 선택되지 않은 경우 연한 색상
-    text-decoration: ${(props) => (props.active ? 'underline' : 'none')}; // 선택된 경우 밑줄 표시
+    color: ${(props) => (props.active ? '#555' : '#aaa')};
+    text-decoration: ${(props) => (props.active ? 'underline' : 'none')};
     transition: color 0.3s;
+
     &:hover {
-        color: ${(props) => (props.active ? '#aaa' : '#555')}; // 선택된 경우 더 진한 색상, 선택되지 않은 경우 중간 색상
+        color: ${(props) => (props.active ? '#aaa' : '#555')};
     }
 `;
 
@@ -157,14 +167,15 @@ const ArrowButton = styled.button`
     background-color: transparent;
     border: none;
     font-size: 1.5rem;
-    padding-bottom: 1rem;
     color: #aaa;
     cursor: pointer;
     transition: color 0.3s;
+
     &:disabled {
         color: #555;
         cursor: not-allowed;
     }
+
     &:hover:enabled {
         color: #fff;
     }
@@ -172,26 +183,23 @@ const ArrowButton = styled.button`
 
 const EventTitle = styled.h3`
     margin-bottom: 10px;
+    color: #fff;
 `;
 
 const EventDetails = styled.p`
     font-size: 16px;
+    color: #ccc;
 `;
 
 const SeatInfo = styled.p`
     font-size: 18px;
     margin-top: 10px;
-`;
-
-const TicketImage = styled.img`
-    width: 100%;
-    height: 100%;
-    margin-top: 20px;
+    color: #ccc;
 `;
 
 const LoadingText = styled.p`
     font-size: 18px;
-    color: #333;
+    color: #ccc;
 `;
 
 export default TicketListPage;
