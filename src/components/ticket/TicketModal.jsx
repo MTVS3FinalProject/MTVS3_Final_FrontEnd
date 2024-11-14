@@ -65,6 +65,7 @@ const ImageContainer = styled.div`
 
 const TicketImage = styled.img`
     max-height: 100%;
+    rotate: calc(90deg);
     transform-origin: center center;
 `;
 
