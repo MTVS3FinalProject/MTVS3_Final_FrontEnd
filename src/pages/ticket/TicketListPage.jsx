@@ -12,7 +12,7 @@ const TicketListPage = () => {
     const [currentPage, setCurrentPage] = useState(0); // Current page state
     const [showModal, setShowModal] = useState(false); // Modal state
     const [selectedTicket, setSelectedTicket] = useState(null); // Selected ticket state
-    const itemsPerPage = 4; // Number of tickets per page (2x2 grid)
+    const itemsPerPage = 1; // Number of tickets per page (1 per row)
 
     // Fetch tickets from the server
     const fetchTickets = async (status) => {
@@ -104,20 +104,19 @@ const PageContainer = styled.div`
 `;
 
 const TicketDisplay = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    gap: 1rem; /* Adjust the gap between items as needed */
-    width: 100%;
-    margin: 3rem 1rem 3rem 1rem; /* Corrected margin syntax (no commas) */
+    display: flex;
+    flex-direction: column; /* 한 줄에 하나씩 표시 */
+    gap: 1rem;
+    width: 80%; /* 가로 정렬에 맞추어 조정 */
     padding: 1rem;
-    box-sizing: border-box; /* Ensure padding is included in total width */
-    justify-items: center; /* Center items horizontally within their grid cells */
-    align-items: center; /* Center items vertically within their grid cells */
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
 `;
 
 const TicketCard = styled.div`
-    width: 80%; /* Take full width of the grid cell */
-    height: auto; /* Maintain aspect ratio based on content */
+    width: 100%;
+    height: auto;
     aspect-ratio: 2 / 3; /* Maintain a consistent aspect ratio */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -127,7 +126,6 @@ const TicketCard = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform-origin: center;
     cursor: pointer;
     padding: 1rem;
     color: #fff;
