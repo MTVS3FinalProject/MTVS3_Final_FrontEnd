@@ -57,9 +57,9 @@ const TicketListPage = () => {
                     <TicketDisplay>
                         {paginatedTickets.map((ticket) => (
                             <TicketCard key={ticket.ticketId} onClick={() => openModal(ticket)}>
-                                <EventTitle>{ticket.concertInfo.concertName}</EventTitle>
+                                <EventTitle>{ticket.concertName}</EventTitle>
                                 <EventDetails>
-                                    {`${ticket.concertInfo.year}/${ticket.concertInfo.month}/${ticket.concertInfo.day}`} {ticket.concertInfo.time}
+                                    {`${ticket.year}/${ticket.month}/${ticket.day}`} {ticket.time}
                                 </EventDetails>
                                 <SeatInfo>{ticket.seatInfo}</SeatInfo>
                             </TicketCard>

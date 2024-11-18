@@ -79,7 +79,7 @@ const LoginForm = styled.div`
 `;
 
 const LogoContainer = styled.div`
-width: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -88,7 +88,8 @@ width: 100%;
 `;
 
 const LogoImg = styled.img`
-    width: 15vw; /* 로고 크기 조정 */
+    width: 25vw; /* 로고 크기 조정 */
+    height: auto;
 `;
 
 const InputContainer = styled.div`

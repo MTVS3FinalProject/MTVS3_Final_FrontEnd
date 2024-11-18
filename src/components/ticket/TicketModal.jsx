@@ -3,14 +3,10 @@ import styled from 'styled-components';
 import { useState } from 'react';
 
 const TicketModal = ({ ticket, onClose }) => {
-    if (!ticket) return null;
 
     const [isFlipped, setIsFlipped] = useState(false);
-
-    // Convert byte array string to base64
-    const getBase64Image = (byteArrayString) => {
-        return `data:image/png;base64,${byteArrayString}`;
-    };
+    
+    if (!ticket) return null;
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
@@ -22,14 +18,14 @@ const TicketModal = ({ ticket, onClose }) => {
                 <FlippableContainer onClick={handleFlip} isFlipped={isFlipped}>
                     <FlippableCard isFlipped={isFlipped}>
                         <FrontFace>
-                            <TicketImage src={getBase64Image(ticket.ticketImage)} alt="Ticket Image" />
+                            <TicketImage src={ticket.ticketImage} alt="Ticket Image" />
                         </FrontFace>
                         <BackFace>
                             <InfoContainer>
-                                <ConcertInfo>{`Concert: ${ticket.concertInfo.concertName}`}</ConcertInfo>
-                                <DateTimeInfo>{`${ticket.concertInfo.year}/${ticket.concertInfo.month}/${ticket.concertInfo.day} ${ticket.concertInfo.time}`}</DateTimeInfo>
+                                <ConcertInfo>{`Concert: ${ticket.concertName}`}</ConcertInfo>
+                                <DateTimeInfo>{`${ticket.year}/${ticket.month}/${ticket.day} ${ticket.time}`}</DateTimeInfo>
                                 <SeatInfo>{`Seat: ${ticket.seatInfo}`}</SeatInfo>
-                                <QRCodeImage src={getBase64Image(ticket.qrImage)} alt="QR Code" />
+                                <QRCodeImage src={ticket.qrImage} alt="QR Code" />
                             </InfoContainer>
                         </BackFace>
                     </FlippableCard>
@@ -44,13 +40,11 @@ TicketModal.propTypes = {
         ticketImage: PropTypes.string.isRequired, 
         barcodeImage: PropTypes.string, 
         qrImage: PropTypes.string,
-        concertInfo: PropTypes.shape({
-            concertName: PropTypes.string,
-            year: PropTypes.number,
-            month: PropTypes.number,
-            day: PropTypes.number,
-            time: PropTypes.string
-        }).isRequired,
+        concertName: PropTypes.string,
+        year: PropTypes.number,
+        month: PropTypes.number,
+        day: PropTypes.number,
+        time: PropTypes.string,
         seatInfo: PropTypes.string
     }).isRequired,
     onClose: PropTypes.func.isRequired
