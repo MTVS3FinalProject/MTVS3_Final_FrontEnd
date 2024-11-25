@@ -103,18 +103,14 @@ const TicketFront = styled.div`
 `;
 
 const TicketBack = styled.div`
-    position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
     transform: rotateY(180deg);
     background-image: url(${(props) => props.backgroundImage}); /* backgroundImage prop 사용 */
+    background-size: contain; /* 배경 이미지를 티켓 크기에 맞춤 */
+    background-position: center; /* 배경 위치를 중앙으로 설정 */
     background-repeat: no-repeat; /* 배경 반복 방지 */
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
 `;
 
 const TicketImage = styled.img`
