@@ -24,10 +24,7 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
                             {/* 티켓 뒷면 */}
                             <TicketBack backgroundImage={ticketDetails.backgroundImage}>
                                 <ConcertInfo>
-                                    <h3>{ticketDetails.concertName}</h3>
-                                    <p>날짜: {`${ticketDetails.year}/${ticketDetails.month}/${ticketDetails.day}`}</p>
-                                    <p>시간: {ticketDetails.time}</p>
-                                    <p>좌석: {ticketDetails.seatInfo}</p>
+                                    <p>{ticketDetails.seatInfo}</p>
                                     <QRCodeImage src={ticketDetails.qrImage} alt="QR Code" />
                                 </ConcertInfo>
                             </TicketBack>
@@ -111,6 +108,11 @@ const TicketBack = styled.div`
     background-size: contain; /* 배경 이미지를 티켓 크기에 맞춤 */
     background-position: center; /* 배경 위치를 중앙으로 설정 */
     background-repeat: no-repeat; /* 배경 반복 방지 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* QRCodeImage의 위치 설정을 위한 기준 */
 `;
 
 const TicketImage = styled.img`
@@ -119,20 +121,18 @@ const TicketImage = styled.img`
 `;
 
 const QRCodeImage = styled.img`
-    width: 100px;
-    height: 100px;
+    width: 20%;
+    height: 20%;
     margin-top: 1rem;
+    align-items: right;
 `;
 
 const ConcertInfo = styled.div`
-    h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-    }
     p {
         font-size: 1rem;
         margin: 0.5rem 0;
     }
+    
 `;
 
 const LoadingText = styled.p`
