@@ -13,7 +13,7 @@ import VerificationPage from './pages/camera/verification/VerificationPage';
 import VerificationPhoto from './pages/camera/verification/VerificationPhoto';
 import VerificationComplete from './pages/camera/verification/VerificationComplete';
 
-import TicketListPage from './pages/ticket/TicketListPage';
+import TicketConcertListPage from './pages/ticket/TicketConcertListPage';
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
       <Route path='/verification/photo' element={<VerificationPhoto />} />
       <Route path='/signup/complete' element={<SignUpComplete />} />
       <Route path='/verification/complete' element={<VerificationComplete />} />
-      <Route path='/tickets' element={<TicketListPage />} />
+      <Route path='/member/tickets' element={<TicketConcertListPage />} />
     </Routes>
   )
 }

@@ -1,143 +1,147 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useState } from 'react';
 
-const TicketModal = ({ ticket, onClose }) => {
-
-    const [isFlipped, setIsFlipped] = useState(false);
-    
-    if (!ticket) return null;
+const TicketModal = ({ ticketDetails, loading, onClose }) => {
+    const [isFlipped, setIsFlipped] = useState(false); // 플립 상태 관리
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
     };
 
     return (
-        <ModalOverlay onClick={onClose}>
+        <ModalBackground onClick={onClose}>
             <ModalContent onClick={(e) => e.stopPropagation()}>
-                <FlippableContainer onClick={handleFlip} isFlipped={isFlipped}>
-                    <FlippableCard isFlipped={isFlipped}>
-                        <FrontFace>
-                            <TicketImage src={ticket.ticketImage} alt="Ticket Image" />
-                        </FrontFace>
-                        <BackFace>
-                            <InfoContainer>
-                                <ConcertInfo>{`Concert: ${ticket.concertName}`}</ConcertInfo>
-                                <DateTimeInfo>{`${ticket.year}/${ticket.month}/${ticket.day} ${ticket.time}`}</DateTimeInfo>
-                                <SeatInfo>{`Seat: ${ticket.seatInfo}`}</SeatInfo>
-                                <QRCodeImage src={ticket.qrImage} alt="QR Code" />
-                            </InfoContainer>
-                        </BackFace>
-                    </FlippableCard>
-                </FlippableContainer>
+                {loading ? (
+                    <LoadingText>Loading ticket details...</LoadingText>
+                ) : (
+                    <TicketWrapper onClick={handleFlip}>
+                        <TicketInner $isFlipped={isFlipped}>
+                            {/* 티켓 앞면 */}
+                            <TicketFront>
+                                <TicketImage src={ticketDetails.ticketImage} alt="Ticket Image" />
+                            </TicketFront>
+                            {/* 티켓 뒷면 */}
+                            <TicketBack backgroundImage={ticketDetails.backgroundImage}>
+                                <ConcertInfo>
+                                    <h3>{ticketDetails.concertName}</h3>
+                                    <p>날짜: {`${ticketDetails.year}/${ticketDetails.month}/${ticketDetails.day}`}</p>
+                                    <p>시간: {ticketDetails.time}</p>
+                                    <p>좌석: {ticketDetails.seatInfo}</p>
+                                    <QRCodeImage src={ticketDetails.qrImage} alt="QR Code" />
+                                </ConcertInfo>
+                            </TicketBack>
+                        </TicketInner>
+                    </TicketWrapper>
+                )}
             </ModalContent>
-        </ModalOverlay>
+        </ModalBackground>
     );
 };
 
+// PropTypes 정의
 TicketModal.propTypes = {
-    ticket: PropTypes.shape({
-        ticketImage: PropTypes.string.isRequired, 
-        barcodeImage: PropTypes.string, 
-        qrImage: PropTypes.string,
-        concertName: PropTypes.string,
-        year: PropTypes.number,
-        month: PropTypes.number,
-        day: PropTypes.number,
-        time: PropTypes.string,
-        seatInfo: PropTypes.string
+    ticketDetails: PropTypes.shape({
+        ticketImage: PropTypes.string.isRequired,
+        concertName: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired,
+        month: PropTypes.number.isRequired,
+        day: PropTypes.number.isRequired,
+        time: PropTypes.string.isRequired,
+        seatInfo: PropTypes.string.isRequired,
+        qrImage: PropTypes.string.isRequired,
+        backgroundImage: PropTypes.string.isRequired, // backgroundImage 추가
     }).isRequired,
-    onClose: PropTypes.func.isRequired
+    loading: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
 };
 
-// Styled components for flipping effect
-const FlippableContainer = styled.div`
-    perspective: 1000px;
+// Styled components
+const ModalBackground = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
-const FlippableCard = styled.div`
+const ModalContent = styled.div`
+    background: transparent;
+    width: 90%;
+    height: 90%;
+    perspective: 1000px; /* 3D 효과를 위한 원근감 */
+`;
+
+const TicketWrapper = styled.div`
     width: 100%;
     height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-    transform: ${({ isFlipped }) => (isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)')};
+    cursor: pointer;
+`;
+
+const TicketInner = styled.div`
+    width: 100%;
+    height: 100%;
     position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    transform: ${({ $isFlipped }) => ($isFlipped ? 'rotateY(180deg)' : 'none')}; /* $isFlipped 사용 */
 `;
 
-const CardFace = styled.div`
+const TicketFront = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    overflow: hidden;
 `;
 
-const FrontFace = styled(CardFace)``;
-
-const BackFace = styled(CardFace)`
+const TicketBack = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     transform: rotateY(180deg);
-`;
-
-const InfoContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+    background-image: url(${(props) => props.backgroundImage}); /* backgroundImage prop 사용 */
+    background-repeat: no-repeat; /* 배경 반복 방지 */
     color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 `;
 
-const ConcertInfo = styled.p`
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-`;
-
-const DateTimeInfo = styled.p`
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-`;
-
-const SeatInfo = styled.p`
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+const TicketImage = styled.img`
+    width: 100%;
+    height: auto;
 `;
 
 const QRCodeImage = styled.img`
     width: 100px;
     height: 100px;
+    margin-top: 1rem;
 `;
 
-const ModalOverlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+const ConcertInfo = styled.div`
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    p {
+        font-size: 1rem;
+        margin: 0.5rem 0;
+    }
 `;
 
-const ModalContent = styled.div`
-    background: #0d1117;
-    border-radius: 8px;
-    width: 80vw;
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    overflow: hidden;
-`;
-
-const TicketImage = styled.img`
-    max-height: 90%;
-    max-width: 90%;
+const LoadingText = styled.p`
+    font-size: 1.2rem;
+    color: #fff;
 `;
 
 export default TicketModal;

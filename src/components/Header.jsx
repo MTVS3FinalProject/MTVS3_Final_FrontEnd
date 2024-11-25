@@ -13,6 +13,7 @@ const HeaderBar = () => {
 };
 
 const HeaderContainer = styled.div`
+position: fixed;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -21,6 +22,7 @@ const HeaderContainer = styled.div`
     background-color: #0d1117; // 배경색을 원하는 색상으로 변경하세요
     padding-top: 3rem;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 `;
 
 const LeftPlaceholder = styled.div`
