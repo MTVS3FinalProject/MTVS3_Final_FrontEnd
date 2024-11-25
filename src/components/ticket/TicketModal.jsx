@@ -23,10 +23,15 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
                             </TicketFront>
                             {/* 티켓 뒷면 */}
                             <TicketBack backgroundImage={ticketDetails.backgroundImage}>
-                                <ConcertInfo>
-                                    <p>{ticketDetails.seatInfo}</p>
-                                    <QRCodeImage src={ticketDetails.qrImage} alt="QR Code" />
-                                </ConcertInfo>
+                            <ConcertInfo>
+                                <p>
+                                {`${ticketDetails.year}/${ticketDetails.month}/${ticketDetails.day} ${ticketDetails.time}`}
+                                </p>
+                                <div className="seat-info">
+                                    <SeatInfo>{ticketDetails.seatInfo}</SeatInfo>
+                                </div>
+                                <QRCodeImage src={ticketDetails.qrImage} alt="QR Code" />
+                            </ConcertInfo>
                             </TicketBack>
                         </TicketInner>
                     </TicketWrapper>
@@ -121,18 +126,37 @@ const TicketImage = styled.img`
 `;
 
 const QRCodeImage = styled.img`
-    width: 20%;
-    height: 20%;
-    margin-top: 1rem;
-    align-items: right;
+    width: 19.5%;
+    align-self: flex-end; /* QR 코드를 오른쪽으로 정렬 */
+    position: absolute; /* 위치를 절대값으로 조정 */
+    right: 2.5rem; /* 오른쪽에서 조금 띄움 */
+    top: 5.4rem;
 `;
 
 const ConcertInfo = styled.div`
+    display: flex;
+    flex-direction: column; /* 요소를 세로로 배치 */
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* 부모 요소 전체 사용 */
+    position: relative; /* QR 코드 위치 조정을 위해 부모 요소를 relative로 설정 */
+    gap: 1rem;
+    padding-bottom: 1rem;
     p {
-        font-size: 1rem;
-        margin: 0.5rem 0;
+        font-size: 0.84rem;
+        text-align: center;
     }
-    
+    /* Seat와 QR 코드 조정을 위한 추가 스타일 */
+    .seat-info {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+`;
+
+const SeatInfo = styled.span`
+    padding-top: 0.5rem;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
 `;
 
 const LoadingText = styled.p`
