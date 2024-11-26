@@ -1,15 +1,26 @@
-import { PutAxiosInstance } from "../../axios/AxiosMethod";
+import { GetAxiosInstance, PutAxiosInstance } from "../../axios/AxiosMethod";
 import jsQR from "jsqr";
 
 export const verifyTicket = async (ticketId) => {
     try {
-        const response = await PutAxiosInstance(`/api/admin/ticket/verification`, {
-            ticketId,
-        });
-        return response.data; // 성공 시 데이터 반환
+        const response = await GetAxiosInstance(`/admin/verification/tickets/${ticketId}`);
+
+        console.log(response.data.response);
+
+        return response.data.response; // 성공 시 데이터 반환
     } catch (error) {
         console.error("Error verifying ticket:", error);
         throw error.response?.data?.message || "An error occurred during verification.";
+    }
+};
+
+export const consumeTicket = async (ticketId) => {
+    try {
+        const response = await PutAxiosInstance(`/admin/consume/tickets/${ticketId}`)
+        return response.data;
+    } catch (error) {
+        console.error("Error Consume Ticket:", error);
+        throw error.response?.data?.message || "An error occurred during consume.";
     }
 };
 

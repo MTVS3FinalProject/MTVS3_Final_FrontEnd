@@ -16,6 +16,7 @@ import VerificationComplete from './pages/camera/verification/VerificationComple
 import TicketConcertListPage from './pages/ticket/TicketConcertListPage';
 
 import QRCodeReader from './pages/admin/AdminQRVerification';
+import TicketInfoPage from './pages/admin/TicketInfoPage';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
       <Route path='/verification/complete' element={<VerificationComplete />} />
       <Route path='/member/tickets' element={<TicketConcertListPage />} />
       <Route path='/admin/ticket/verification' element={<QRCodeReader />} />
+      <Route path='/admin/ticket/info' element={<TicketInfoPage />} />
     </Routes>
   )
 }
