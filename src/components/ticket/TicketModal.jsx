@@ -1,43 +1,67 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import QrModal from './QRModal';
 
 const TicketModal = ({ ticketDetails, loading, onClose }) => {
     const [isFlipped, setIsFlipped] = useState(false); // 플립 상태 관리
+    const [showQrModal, setShowQrModal] = useState(false); // QR 모달 상태
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
     };
 
+    const handleQrClick = () => {
+        setShowQrModal(true);
+    };
+
+    const closeQrModal = () => {
+        setShowQrModal(false);
+    };
+
     return (
-        <ModalBackground onClick={onClose}>
-            <ModalContent onClick={(e) => e.stopPropagation()}>
-                {loading ? (
-                    <LoadingText>Loading ticket details...</LoadingText>
-                ) : (
-                    <TicketWrapper onClick={handleFlip}>
-                        <TicketInner $isFlipped={isFlipped}>
-                            {/* 티켓 앞면 */}
-                            <TicketFront>
-                                <TicketImage src={ticketDetails.ticketImage} alt="Ticket Image" />
-                            </TicketFront>
-                            {/* 티켓 뒷면 */}
-                            <TicketBack backgroundImage={ticketDetails.backgroundImage}>
-                            <ConcertInfo>
-                                <p>
-                                {`${ticketDetails.year}/${ticketDetails.month}/${ticketDetails.day} ${ticketDetails.time}`}
-                                </p>
-                                <div className="seat-info">
-                                    <SeatInfo>{ticketDetails.seatInfo}</SeatInfo>
-                                </div>
-                                <QRCodeImage src={ticketDetails.qrImage} alt="QR Code" />
-                            </ConcertInfo>
-                            </TicketBack>
-                        </TicketInner>
-                    </TicketWrapper>
-                )}
-            </ModalContent>
-        </ModalBackground>
+        <>
+            <ModalBackground onClick={onClose}>
+                <ModalContent onClick={(e) => e.stopPropagation()}>
+                    {loading ? (
+                        <LoadingText>Loading ticket details...</LoadingText>
+                    ) : (
+                        <TicketWrapper onClick={handleFlip}>
+                            <TicketInner $isFlipped={isFlipped}>
+                                {/* 티켓 앞면 */}
+                                <TicketFront>
+                                    <TicketImage src={ticketDetails.ticketImage} alt="Ticket Image" />
+                                </TicketFront>
+                                {/* 티켓 뒷면 */}
+                                <TicketBack backgroundImage={ticketDetails.backgroundImage}>
+                                    <ConcertInfo>
+                                        <p>
+                                            {`${ticketDetails.year}/${ticketDetails.month}/${ticketDetails.day} ${ticketDetails.time}`}
+                                        </p>
+                                        <div className="seat-info">
+                                            <SeatInfo>{ticketDetails.seatInfo}</SeatInfo>
+                                        </div>
+                                        <QRCodeImage
+                                            src={ticketDetails.qrImage}
+                                            alt="QR Code"
+                                            onClick={handleQrClick} // QR 클릭 이벤트
+                                        />
+                                    </ConcertInfo>
+                                </TicketBack>
+                            </TicketInner>
+                        </TicketWrapper>
+                    )}
+                </ModalContent>
+            </ModalBackground>
+
+            {/* QR 모달 */}
+            {showQrModal && (
+                <QrModal
+                    qrImage={ticketDetails.qrImage}
+                    onClose={closeQrModal}
+                />
+            )}
+        </>
     );
 };
 
@@ -57,6 +81,8 @@ TicketModal.propTypes = {
     loading: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
 };
+
+export default TicketModal;
 
 // Styled components
 const ModalBackground = styled.div`
@@ -131,6 +157,7 @@ const QRCodeImage = styled.img`
     position: absolute; /* 위치를 절대값으로 조정 */
     right: 2.5rem; /* 오른쪽에서 조금 띄움 */
     top: 5.4rem;
+    cursor: pointer; /* 클릭 가능 */
 `;
 
 const ConcertInfo = styled.div`
@@ -163,5 +190,3 @@ const LoadingText = styled.p`
     font-size: 1.2rem;
     color: #fff;
 `;
-
-export default TicketModal;
