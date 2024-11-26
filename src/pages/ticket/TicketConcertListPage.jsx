@@ -59,7 +59,6 @@ const TicketConcertListPage = () => {
         <>
             <HeaderBar />
             <PageContainer>
-                <PageTitle>보유 티켓</PageTitle>
                 {loading ? (
                     <LoadingText>Loading...</LoadingText>
                 ) : (
@@ -97,14 +96,9 @@ const PageContainer = styled.div`
     align-items: center;
     justify-content: flex-start;
     background-color: #0d1117;
-    height: 100%;
+    height: 100vh;
     padding: 0.75rem;
-`;
-
-const PageTitle = styled.h1`
-    color: #fff;
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    padding-top: calc(10% + 3rem); /* Adjust padding to prevent overlap with HeaderBar */
 `;
 
 const ThumbnailGrid = styled.div`

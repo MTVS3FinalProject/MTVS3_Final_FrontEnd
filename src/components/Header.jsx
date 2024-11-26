@@ -17,7 +17,7 @@ position: fixed;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    width: 100vw;
     height: 7%;
     background-color: #0d1117; // 배경색을 원하는 색상으로 변경하세요
     padding-top: 3rem;
