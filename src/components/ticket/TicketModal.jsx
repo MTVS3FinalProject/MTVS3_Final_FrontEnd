@@ -8,7 +8,9 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
     const [showQrModal, setShowQrModal] = useState(false); // QR 모달 상태
 
     const handleFlip = () => {
-        setIsFlipped(!isFlipped);
+        if (!showQrModal) { // QR 모달이 열려있지 않을 때만 플립 허용
+            setIsFlipped(!isFlipped);
+        }
     };
 
     const handleQrClick = () => {
