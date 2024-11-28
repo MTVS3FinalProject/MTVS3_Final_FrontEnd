@@ -10,7 +10,7 @@ const QRCodeReader = () => {
     const [error, setError] = useState(null);
     const lastScanned = useRef(null);
     const navigate = useNavigate();
-    const [scanDelay, setScanDelay] = useState(3000);
+    const [scanDelay, setScanDelay] = useState(1000);
 
     const handleScan = async (result) => {
         if (result?.text && result.text !== lastScanned.current) {
@@ -45,6 +45,18 @@ const QRCodeReader = () => {
         }
     };
 
+    const handleManualRequest = async () => {
+        const ticketId = '2';
+        try {
+            const response = await verifyTicket(ticketId);
+            console.log(response);
+            navigate('/admin/ticket/info', { state: response });
+        } catch (err) {
+            console.error('Error communicating with the server:', err);
+            setError('Failed to validate ticket. Please try again.');
+        }
+    };
+
     return (
         <>
             <HeaderBar />
@@ -58,7 +70,7 @@ const QRCodeReader = () => {
                         }
                     }}
                     constraints={{ facingMode: { ideal: 'environment' } }}
-                    scanDelay={scanDelay} // 스캔 딜레이 설정
+                    scanDelay={scanDelay}
                     videoStyle={{
                         position: 'absolute',
                         inset: 0,
@@ -85,6 +97,9 @@ const QRCodeReader = () => {
                         <p>{error}</p>
                     </ErrorMessage>
                 )}
+                <ManualButton onClick={handleManualRequest}>
+                    Validate with Ticket ID 2
+                </ManualButton>
             </Container>
         </>
     );
@@ -96,6 +111,8 @@ const Container = styled.div`
     padding: 20px;
     background-color: #0d1117;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 `;
@@ -107,4 +124,19 @@ const ScannedData = styled.div`
 const ErrorMessage = styled.div`
     margin-top: 20px;
     color: red;
+`;
+
+const ManualButton = styled.button`
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #0056b3;
+    }
 `;

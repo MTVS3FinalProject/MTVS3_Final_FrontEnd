@@ -118,7 +118,7 @@ const TicketContainer = styled.div`
 // 상단 이미지
 const TicketTop = styled.div`
     width: 100%;
-    height: 68%; /* 상단 70% */
+    height: 75%; /* 상단 70% */
     background-image: url(${(props) => props.src});
     background-size: cover;
     background-position: top;
@@ -128,7 +128,7 @@ const TicketTop = styled.div`
 // 하단 이미지
 const TicketBottom = styled.div`
     width: 100%;
-    height: 24%; /* 하단 30% */
+    height: 2%; /* 하단 30% */
     background-image: url(${(props) => props.src});
     background-size: cover;
     background-position: bottom;
