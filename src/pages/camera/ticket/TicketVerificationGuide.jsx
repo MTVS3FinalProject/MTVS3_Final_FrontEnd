@@ -11,6 +11,8 @@ function TicketVerificationGuide() {
     const [searchParams] = useSearchParams();
     const ticketId = searchParams.get('ticketId');
 
+    console.log(ticketId);
+
     const handleNext = () => {
         if (ticketId) {
             navigate('/member/tickets/verification/camera', { state: { ticketId } });

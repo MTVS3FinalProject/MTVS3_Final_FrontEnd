@@ -62,7 +62,9 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
             {showQrModal && (
                 <QrModal
                     qrImage={ticketDetails.qrImage}
+                    ticketId={ticketDetails.ticketId}
                     onClose={closeQrModal}
+                    isVerified={ticketDetails.isVerified}
                 />
             )}
         </>
@@ -81,6 +83,8 @@ TicketModal.propTypes = {
         qrImage: PropTypes.string.isRequired,
         backgroundImage: PropTypes.string.isRequired,
         isUsed: PropTypes.bool.isRequired,
+        ticketId: PropTypes.string.isRequired,
+        isVerified: PropTypes.bool.isRequired,
     }).isRequired,
     loading: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,

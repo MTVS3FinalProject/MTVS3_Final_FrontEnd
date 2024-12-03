@@ -60,13 +60,15 @@ export const verifyTicketOwner = async (file, ticketId, secondPwd) => {
         throw new Error('Missing required parameters');
     }
 
+    console.log(file, ticketId, secondPwd);
+
     const formData = new FormData();
     formData.append('image', file);
     formData.append('ticketId', ticketId);
     formData.append('secondPwd', secondPwd);
 
     try {
-        const response = await PostAxiosInstance(`/tickets/verify-owner`, formData);
+        const response = await PostAxiosInstance(`/face/ticket/verification`, formData);
         return response.data;
     } catch (error) {
         console.error('Error verifying ticket owner:', error);
