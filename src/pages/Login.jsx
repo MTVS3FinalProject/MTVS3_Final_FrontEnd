@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import LogoImage from '../assets/login/logo.png';
+import LogoImage from '../assets/logo/white.png';
 
 import { login } from "../api/auth";
 
@@ -15,7 +15,7 @@ const Login = () => {
         try {
             const res = await login(email, password);
             console.log('Login successful:', res);
-            navigate('/ticket');
+            navigate('/member/tickets');
         } catch (err) {
             console.error('Login failed:', err);
         }
@@ -68,18 +68,18 @@ const LoginForm = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    background-color: #1b2230;
+    /* background-color: #1b2230; */
     padding: 1rem;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid #fff;
+    /* border: 1px solid #fff; */
     opacity: 0.8;
     margin-bottom: 1.5rem;
     gap: 1.5rem;
 `;
 
 const LogoContainer = styled.div`
-width: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -88,7 +88,8 @@ width: 100%;
 `;
 
 const LogoImg = styled.img`
-    width: 15vw; /* 로고 크기 조정 */
+    width: 25vw; /* 로고 크기 조정 */
+    height: auto;
 `;
 
 const InputContainer = styled.div`

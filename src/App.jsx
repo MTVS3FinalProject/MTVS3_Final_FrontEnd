@@ -13,6 +13,15 @@ import VerificationPage from './pages/camera/verification/VerificationPage';
 import VerificationPhoto from './pages/camera/verification/VerificationPhoto';
 import VerificationComplete from './pages/camera/verification/VerificationComplete';
 
+import TicketConcertListPage from './pages/ticket/TicketConcertListPage';
+
+import QRCodeReader from './pages/admin/AdminQRVerification';
+import TicketInfoPage from './pages/admin/TicketInfoPage';
+
+import TicketVerificationGuide from './pages/camera/ticket/TicketVerificationGuide';
+import TicketVerificationCamera from './pages/camera/ticket/TicketVerificationCamera';
+import TicketVerificationPhoto from './pages/camera/ticket/TicketVerificationPhoto';
+
 function App() {
   return (
     <Routes>
@@ -25,6 +34,12 @@ function App() {
       <Route path='/verification/photo' element={<VerificationPhoto />} />
       <Route path='/signup/complete' element={<SignUpComplete />} />
       <Route path='/verification/complete' element={<VerificationComplete />} />
+      <Route path='/member/tickets' element={<TicketConcertListPage />} />
+      <Route path='/admin/ticket/verification' element={<QRCodeReader />} />
+      <Route path='/admin/ticket/info' element={<TicketInfoPage />} />
+      <Route path='/member/tickets/verification/guide' element={<TicketVerificationGuide />} />
+      <Route path='/member/tickets/verification/camera' element={<TicketVerificationCamera />} />
+      <Route path='/member/tickets/verification/photo' element={<TicketVerificationPhoto />} />
     </Routes>
   )
 }
