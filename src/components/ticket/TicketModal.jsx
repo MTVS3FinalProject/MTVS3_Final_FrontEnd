@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
 import QrModal from './QRModal';
 
 const TicketModal = ({ ticketDetails, loading, onClose }) => {
     const [isFlipped, setIsFlipped] = useState(false); // 플립 상태 관리
     const [showQrModal, setShowQrModal] = useState(false); // QR 모달 상태
-    const [isAnimating, setIsAnimating] = useState(ticketDetails.isUsed); // 애니메이션 상태
 
     const handleFlip = () => {
         if (!showQrModal) {
@@ -34,13 +33,7 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
                                 {/* 티켓 앞면 */}
                                 <TicketFront>
                                     <TicketContainer>
-                                        {/* 상단 부분 */}
-                                        <TicketTop src={ticketDetails.ticketImage} />
-                                        {/* 하단 부분 */}
-                                        <TicketBottom
-                                            src={ticketDetails.ticketImage}
-                                            $isAnimating={isAnimating} // 애니메이션 상태 전달
-                                        />
+                                        <Ticket src={ticketDetails.ticketImage} />
                                     </TicketContainer>
                                 </TicketFront>
                                 {/* 티켓 뒷면 */}
@@ -95,50 +88,23 @@ TicketModal.propTypes = {
 
 export default TicketModal;
 
-// Styled components
-
-// 하단 뜯기 애니메이션 정의
-const tearAnimation = keyframes`
-    0% {
-        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); /* 하단 전체 표시 */
-    }
-    100% {
-        clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%); /* 오른쪽에서 왼쪽으로 제거 */
-    }
-`;
-
 // 티켓 전체 컨테이너
 const TicketContainer = styled.div`
-    display: flex;
-    flex-direction: column;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 // 상단 이미지
-const TicketTop = styled.div`
+const Ticket = styled.div`
     width: 100%;
-    height: 75%; /* 상단 70% */
+    height: 100%;
     background-image: url(${(props) => props.src});
-    background-size: cover;
-    background-position: top;
+    background-size: contain;
+    background-position: center;
     background-repeat: no-repeat;
-`;
-
-// 하단 이미지
-const TicketBottom = styled.div`
-    width: 100%;
-    height: 2%; /* 하단 30% */
-    background-image: url(${(props) => props.src});
-    background-size: cover;
-    background-position: bottom;
-    background-repeat: no-repeat;
-
-    ${({ $isAnimating }) =>
-        $isAnimating &&
-        css`
-            animation: ${tearAnimation} 1s ease-in-out forwards; /* 애니메이션 적용 */
-        `}
 `;
 
 const ModalBackground = styled.div`
@@ -180,13 +146,16 @@ const TicketFront = styled.div`
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
+    transform: rotateY(0deg);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    background-color: #1a1a1a;
 `;
 
 const TicketBack = styled.div`
+    position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
@@ -199,7 +168,6 @@ const TicketBack = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
 `;
 
 const QRCodeImage = styled.img`
