@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import QrModal from './QRModal';
+import { useLocation } from 'react-router-dom';
 
 const TicketModal = ({ ticketDetails, loading, onClose }) => {
     const [isFlipped, setIsFlipped] = useState(false); // 플립 상태 관리
     const [showQrModal, setShowQrModal] = useState(false); // QR 모달 상태
+    const location = useLocation();  // 추가
+
+    // 인증 성공 후 돌아왔을 때 QR Modal 자동으로 열기
+    useEffect(() => {
+        if (location.state?.showQR) {
+            setShowQrModal(true);
+        }
+    }, [location.state]);
 
     const handleFlip = () => {
         if (!showQrModal) {
@@ -37,7 +46,7 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
                                     </TicketContainer>
                                 </TicketFront>
                                 {/* 티켓 뒷면 */}
-                                <TicketBack backgroundImage={ticketDetails.backgroundImage}>
+                                <TicketBack $backgroundImage={ticketDetails.backgroundImage}>
                                     <ConcertInfo>
                                         <p>
                                             {`${ticketDetails.year}/${ticketDetails.month}/${ticketDetails.day} ${ticketDetails.time}`}
@@ -164,7 +173,7 @@ const TicketBack = styled.div`
     height: 100%;
     backface-visibility: hidden;
     transform: rotateY(180deg);
-    background-image: url(${(props) => props.backgroundImage});
+    background-image: url(${props => props.$backgroundImage});
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

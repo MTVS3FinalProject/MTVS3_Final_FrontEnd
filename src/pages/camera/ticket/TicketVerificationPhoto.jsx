@@ -15,7 +15,6 @@ function TicketVerificationPhoto() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalMessage, setModalMessage] = useState('');
-    const [modalNavigateTo, setModalNavigateTo] = useState(null);
     
     const inputRefs = useRef([]);
 
@@ -53,17 +52,22 @@ function TicketVerificationPhoto() {
         try {
             setIsUploading(true);
             await verifyTicketOwner(file, ticketId, fullPwd);
-            setModalTitle('성공');
-            setModalMessage('티켓 소유자 인증에 성공하였습니다!');
-            setModalNavigateTo('/member/tickets');
+            
+            navigate('/member/tickets', { 
+                state: { 
+                    showQR: true,
+                    isVerified: true,
+                    ticketId: ticketId
+                },
+                replace: true
+            });
         } catch (error) {
             console.error('Error during upload:', error);
             setModalTitle('실패');
             setModalMessage(error.response?.data?.message || '티켓 소유자 인증에 실패했습니다.');
-            setModalNavigateTo(null);
+            setIsModalOpen(true);
         } finally {
             setIsUploading(false);
-            setIsModalOpen(true);
         }
     };
 
@@ -90,9 +94,6 @@ function TicketVerificationPhoto() {
     };
 
     const closeModal = () => {
-        if (modalNavigateTo) {
-            navigate(modalNavigateTo);
-        }
         setIsModalOpen(false);
     };
 

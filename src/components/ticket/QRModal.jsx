@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const QrModal = ({ qrImage, ticketId, onClose, isVerified = false }) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    
+    // 인증 완료 후 돌아왔을 때 상태 확인
+    const verificationCompleted = location.state?.isVerified || isVerified;
 
     const handleVerification = () => {
         navigate(`/member/tickets/verification/guide?ticketId=${ticketId}`);
@@ -12,7 +16,7 @@ const QrModal = ({ qrImage, ticketId, onClose, isVerified = false }) => {
     return (
         <ModalBackground onClick={onClose}>
             <ModalContent onClick={(e) => e.stopPropagation()}>
-                {isVerified ? (
+                {verificationCompleted ? (
                     <QrImage src={qrImage} alt="QR Code" />
                 ) : (
                     <VerificationContainer>
@@ -65,6 +69,18 @@ const QrImage = styled.img`
     max-width: 400px;
     border: 5px solid #fff;
     border-radius: 10px;
+    animation: fadeIn 0.5s ease-in;
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
 `;
 
 const VerificationContainer = styled.div`
