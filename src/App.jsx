@@ -37,9 +37,9 @@ function App() {
       <Route path='/member/tickets' element={<TicketConcertListPage />} />
       <Route path='/admin/ticket/verification' element={<QRCodeReader />} />
       <Route path='/admin/ticket/info' element={<TicketInfoPage />} />
-      <Route path='/ticket/verification/guide' element={<TicketVerificationGuide />} />
-      <Route path='/tickets/verification/camera' element={<TicketVerificationCamera />} />
-      <Route path='/tickets/verification/photo' element={<TicketVerificationPhoto />} />
+      <Route path='/member/tickets/verification/guide' element={<TicketVerificationGuide />} />
+      <Route path='/member/tickets/verification/camera' element={<TicketVerificationCamera />} />
+      <Route path='/member/tickets/verification/photo' element={<TicketVerificationPhoto />} />
     </Routes>
   )
 }

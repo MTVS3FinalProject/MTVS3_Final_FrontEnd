@@ -86,7 +86,7 @@ function TicketVerificationPhoto() {
     };
 
     const handleRetry = () => {
-        navigate(`/tickets/verify-owner/guide?ticketId=${ticketId}`);
+        navigate(`/member/tickets/verification/guide?ticketId=${ticketId}`);
     };
 
     const closeModal = () => {

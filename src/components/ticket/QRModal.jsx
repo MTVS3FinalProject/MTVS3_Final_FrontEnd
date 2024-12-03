@@ -6,7 +6,7 @@ const QrModal = ({ qrImage, ticketId, onClose, isVerified = false }) => {
     const navigate = useNavigate();
 
     const handleVerification = () => {
-        navigate(`/tickets/verify-owner/guide?ticketId=${ticketId}`);
+        navigate(`/member/tickets/verification/guide?ticketId=${ticketId}`);
     };
 
     return (

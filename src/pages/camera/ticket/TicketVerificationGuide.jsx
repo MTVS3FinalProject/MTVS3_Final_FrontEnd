@@ -13,7 +13,7 @@ function TicketVerificationGuide() {
 
     const handleNext = () => {
         if (ticketId) {
-            navigate('/tickets/verify-owner/camera', { state: { ticketId } });
+            navigate('/member/tickets/verification/camera', { state: { ticketId } });
         } else {
             alert('올바른 티켓 정보가 없습니다.');
         }

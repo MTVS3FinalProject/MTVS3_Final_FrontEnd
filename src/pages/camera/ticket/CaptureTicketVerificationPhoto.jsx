@@ -125,7 +125,7 @@ function CaptureTicketVerificationPhoto({ ticketId }) {
 
             const imageDataUrl = canvas.toDataURL('image/png');
 
-            navigate('/tickets/verify-owner/photo', { 
+            navigate('/member/tickets/verification/photo', { 
                 state: { 
                     photo: imageDataUrl, 
                     ticketId 
