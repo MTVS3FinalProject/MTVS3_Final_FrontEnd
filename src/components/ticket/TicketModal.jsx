@@ -48,8 +48,15 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
                                     </TicketContainer>
                                 </TicketFront>
                                 {/* 티켓 뒷면 */}
-                                <TicketBack $backgroundImage={ticketDetails.backgroundImage}>
-                                    <ConcertInfo>
+                                <TicketBack>
+                                    <BackgroundImage $backgroundImage={ticketDetails.backgroundImage} $isUsed={ticketDetails.isUsed} />
+                                    {ticketDetails.isUsed && (
+                                        <Overlay>
+                                            <CheckMark>✔</CheckMark>
+                                            <UsedText>사용된 티켓입니다.</UsedText>
+                                        </Overlay>
+                                    )}
+                                    <ConcertInfo $isUsed={ticketDetails.isUsed}>
                                         <p>
                                             {`${ticketDetails.year}/${ticketDetails.month}/${ticketDetails.day} ${ticketDetails.time}`}
                                         </p>
@@ -60,6 +67,7 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
                                             src={ticketDetails.qrImage}
                                             alt="QR Code"
                                             onClick={handleQrClick}
+                                            $isVerified={ticketDetails.isVerified}
                                         />
                                     </ConcertInfo>
                                 </TicketBack>
@@ -166,7 +174,6 @@ const TicketFront = styled.div`
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-color: #1a1a1a;
 `;
 
 const TicketBack = styled.div`
@@ -175,14 +182,23 @@ const TicketBack = styled.div`
     height: 100%;
     backface-visibility: hidden;
     transform: rotateY(180deg);
-    background-image: url(${props => props.$backgroundImage});
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+`;
+
+const BackgroundImage = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(${props => props.$backgroundImage});
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: ${props => props.$isUsed ? 'grayscale(50%) brightness(0.7) blur(2px)' : 'none'};
 `;
 
 const QRCodeImage = styled.img`
@@ -192,6 +208,12 @@ const QRCodeImage = styled.img`
     right: 2.5rem;
     top: 5.4rem;
     cursor: pointer;
+    filter: ${props => !props.$isVerified ? 'blur(5px)' : 'none'};
+    transition: filter 0.3s ease;
+
+    &:hover {
+        filter: ${props => !props.$isVerified ? 'blur(3px)' : 'none'};
+    }
 `;
 
 const ConcertInfo = styled.div`
@@ -203,6 +225,8 @@ const ConcertInfo = styled.div`
     position: relative;
     gap: 1rem;
     padding-bottom: 1rem;
+    opacity: ${props => props.$isUsed ? 0.5 : 1};
+    filter: ${props => props.$isUsed ? 'blur(1px)' : 'none'};
     p {
         font-size: 0.84rem;
         text-align: center;
@@ -222,4 +246,39 @@ const SeatInfo = styled.span`
 const LoadingText = styled.p`
     font-size: 1.2rem;
     color: #fff;
+`;
+
+const Overlay = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    filter: none !important;
+    backdrop-filter: none;
+    transform: translateZ(0);
+`;
+
+const CheckMark = styled.div`
+    font-size: 3rem;
+    color: #4caf50;
+    filter: none !important;
+    backdrop-filter: none;
+    transform: translateZ(0);
+`;
+
+const UsedText = styled.p`
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: bold;
+    filter: none !important;
+    backdrop-filter: none;
+    transform: translateZ(0);
 `;
