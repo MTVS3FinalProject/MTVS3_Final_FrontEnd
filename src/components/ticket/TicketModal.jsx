@@ -7,14 +7,15 @@ import { useLocation } from 'react-router-dom';
 const TicketModal = ({ ticketDetails, loading, onClose }) => {
     const [isFlipped, setIsFlipped] = useState(false); // 플립 상태 관리
     const [showQrModal, setShowQrModal] = useState(false); // QR 모달 상태
-    const location = useLocation();  // 추가
+    const location = useLocation();
 
-    // 인증 성공 후 돌아왔을 때 QR Modal 자동으로 열기
+    // 인증 성공 후 돌아왔을 때만 QR Modal 자동으로 열기
     useEffect(() => {
-        if (location.state?.showQR) {
+        if (location.state?.showQR && location.state?.ticketId === ticketDetails.ticketId) {
             setShowQrModal(true);
+            window.history.replaceState({}, document.title);
         }
-    }, [location.state]);
+    }, [location.state, ticketDetails.ticketId]);
 
     const handleFlip = () => {
         if (!showQrModal) {
@@ -22,8 +23,9 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
         }
     };
 
-    const handleQrClick = () => {
-        setShowQrModal(true);
+    const handleQrClick = (e) => {
+        e.stopPropagation();  // 이벤트 버블링 방지
+        setShowQrModal(true);  // 항상 모달은 열되, QRModal 내부에서 조건에 따라 다른 내용 표시
     };
 
     const closeQrModal = () => {

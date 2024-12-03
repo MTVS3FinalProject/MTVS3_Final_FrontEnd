@@ -1,40 +1,41 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import LogoImage from '../assets/logo/white.png';
 
-import LogoImg from '../assets/logo/white.png'
+function HeaderBar() {
+    const navigate = useNavigate();
 
-const HeaderBar = () => {
+    const handleLogoClick = () => {
+        navigate('/member/tickets');
+    };
+
     return (
-        <HeaderContainer>
-            <LeftPlaceholder />
-            <Logo src={LogoImg} alt="Logo" /> {/* 로고 텍스트를 변경하거나 이미지로 대체할 수 있습니다 */}
-            <RightPlaceholder />
-        </HeaderContainer>
+        <Header>
+            <LogoImg 
+                src={LogoImage} 
+                alt="Logo" 
+                onClick={handleLogoClick}
+            />
+        </Header>
     );
-};
+}
 
-const HeaderContainer = styled.div`
-position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100vw;
+const Header = styled.header`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 7%;
-    background-color: #0d1117; // 배경색을 원하는 색상으로 변경하세요
-    padding-top: 3rem;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    background-color: #0d1117;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
 `;
 
-const LeftPlaceholder = styled.div`
-    flex: 1;
-`;
-
-const Logo = styled.img`
-    height: 100%;
-`;
-
-const RightPlaceholder = styled.div`
-    flex: 1;
+const LogoImg = styled.img`
+    height: 40px;
+    cursor: pointer;  // 클릭 가능함을 나타내는 커서 추가
 `;
 
 export default HeaderBar;
