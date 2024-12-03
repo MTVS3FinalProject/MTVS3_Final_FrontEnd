@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PostAxiosInstance } from "../axios/AxiosMethod";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -52,4 +53,23 @@ export const uploadVerificationPhoto = async (file, userCode, secondPwd) => {
     console.error('Error uploading the verification photo:', error);
     throw new Error('Failed to upload the verification photo.');
   }
+};
+
+export const verifyTicketOwner = async (file, ticketId, secondPwd) => {
+    if (!file || !ticketId || !secondPwd) {
+        throw new Error('Missing required parameters');
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('ticketId', ticketId);
+    formData.append('secondPwd', secondPwd);
+
+    try {
+        const response = await PostAxiosInstance(`/tickets/verify-owner`, formData);
+        return response.data;
+    } catch (error) {
+        console.error('Error verifying ticket owner:', error);
+        throw error;
+    }
 };
