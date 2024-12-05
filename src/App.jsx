@@ -23,6 +23,7 @@ import TicketVerificationCamera from './pages/camera/ticket/TicketVerificationCa
 import TicketVerificationPhoto from './pages/camera/ticket/TicketVerificationPhoto';
 import AdminMemberTicketQRVerification from './pages/admin/AdminMemberTicketQRVerification';
 import AdminMemberVerificationCamera from './pages/admin/AdminMemberVerificationCamera';
+import AdminMemberVerificationPhoto from './pages/admin/AdminMemberVerificationPhoto';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
       <Route path='/member/tickets/verification/photo' element={<TicketVerificationPhoto />} />
       <Route path='/admin/ticket/member/verification' element={<AdminMemberTicketQRVerification />} />
       <Route path='/admin/member/verification/camera' element={<AdminMemberVerificationCamera />} />
+      <Route path='/admin/member/verification/photo' element={<AdminMemberVerificationPhoto />} />
     </Routes>
   )
 }

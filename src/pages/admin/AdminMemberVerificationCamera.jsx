@@ -2,13 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import HeaderBar from '../../components/Header';
-import { verifyMember } from '../../api/admin';
 
 function AdminMemberVerificationCamera() {
     const location = useLocation();
     const navigate = useNavigate();
     const { ticketId } = location.state || {};
-    const [isUploading, setIsUploading] = useState(false);
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const streamRef = useRef(null);
@@ -44,30 +42,14 @@ function AdminMemberVerificationCamera() {
             canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            canvas.toBlob(async (blob) => {
-                const file = new File([blob], `member-verification-${Date.now()}.png`, { type: 'image/png' });
-                await handleUpload(file);
-            }, 'image/png');
-        }
-    };
-
-    const handleUpload = async (file) => {
-        if (!file || !ticketId) {
-            alert('사진 촬영에 실패했습니다.');
-            return;
-        }
-
-        try {
-            setIsUploading(true);
-            await verifyMember(ticketId, file);
-            alert('신원 확인이 완료되었습니다.');
+            const photo = canvas.toDataURL('image/png');
             stopCamera();
-            navigate('/admin/ticket/verification');
-        } catch (error) {
-            console.error('신원 확인 실패:', error);
-            alert('신원 확인에 실패했습니다.');
-        } finally {
-            setIsUploading(false);
+            navigate('/admin/member/verification/photo', { 
+                state: { 
+                    photo,
+                    ticketId 
+                } 
+            });
         }
     };
 
@@ -94,11 +76,8 @@ function AdminMemberVerificationCamera() {
                         <canvas ref={canvasRef} style={{ display: 'none' }} />
                     </CameraSection>
                     <ButtonContainer>
-                        <CaptureButton 
-                            onClick={capturePhoto} 
-                            disabled={isUploading}
-                        >
-                            {isUploading ? '처리 중...' : '사진 촬영'}
+                        <CaptureButton onClick={capturePhoto}>
+                            사진 촬영
                         </CaptureButton>
                         <CancelButton onClick={handleCancel}>
                             취소
