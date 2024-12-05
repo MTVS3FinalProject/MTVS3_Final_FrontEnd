@@ -1,29 +1,33 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { QRCodeSVG } from 'qrcode.react';
 
 const QrModal = ({ qrImage, ticketId, onClose, isVerified }) => {
-    const navigate = useNavigate();
 
-    console.log(isVerified);
-    
-    const handleVerification = () => {
-        navigate(`/member/tickets/verification/guide?ticketId=${ticketId}`);
-    };
+    const verificationQrData = `${window.location.origin}/admin/ticket/member/verification?ticketId=${ticketId}`;
 
     return (
         <ModalBackground onClick={onClose}>
             <ModalContent onClick={(e) => e.stopPropagation()}>
-                {isVerified && qrImage ? (
+                {isVerified ? (
                     <QrImage src={qrImage} alt="QR Code" />
                 ) : (
                     <VerificationContainer>
                         <VerificationMessage>
-                            티켓 사용을 위해 얼굴 인증이 필요합니다
+                            관리자에게 QR코드를 보여주세요
                         </VerificationMessage>
-                        <VerifyButton onClick={handleVerification}>
-                            얼굴 인증하기
-                        </VerifyButton>
+                        <QRCodeWrapper>
+                            <QRCodeSVG 
+                                value={verificationQrData}
+                                size={200}
+                                level="H"
+                                includeMargin={true}
+                                style={{ background: 'white', padding: '10px' }}
+                            />
+                        </QRCodeWrapper>
+                        <VerificationGuide>
+                            관리자가 QR코드를 스캔하여 신원을 확인할 것입니다
+                        </VerificationGuide>
                     </VerificationContainer>
                 )}
             </ModalContent>
@@ -95,19 +99,18 @@ const VerificationMessage = styled.p`
     text-align: center;
 `;
 
-const VerifyButton = styled.button`
-    background-color: #2ea043;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 25px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+const QRCodeWrapper = styled.div`
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
-    &:hover {
-        background-color: #2c974b;
-    }
+const VerificationGuide = styled.p`
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-align: center;
 `;
 
 export default QrModal;
