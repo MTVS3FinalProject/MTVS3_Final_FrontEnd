@@ -28,6 +28,9 @@ const QrModal = ({ qrImage, ticketId, onClose, isVerified }) => {
                         <VerificationGuide>
                             관리자가 QR코드를 스캔하여 신원을 확인할 것입니다
                         </VerificationGuide>
+                        <VerifyButton>
+                            인증하기
+                        </VerifyButton>
                     </VerificationContainer>
                 )}
             </ModalContent>
@@ -111,6 +114,26 @@ const VerificationGuide = styled.p`
     font-size: 0.9rem;
     margin-top: 1rem;
     text-align: center;
+`;
+
+const VerifyButton = styled.button`
+    background-color: #1f6feb;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: #388bfd;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
 `;
 
 export default QrModal;

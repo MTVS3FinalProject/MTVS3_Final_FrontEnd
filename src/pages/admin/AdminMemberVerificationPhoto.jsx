@@ -125,20 +125,30 @@ const Button = styled.button`
 `;
 
 const UploadButton = styled(Button)`
-    background-color: #2ea043;
+    background-color: #1f6feb;
     color: white;
 
     &:hover:not(:disabled) {
-        background-color: #2c974b;
+        background-color: #388bfd;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(1px);
     }
 `;
 
 const RetryButton = styled(Button)`
-    background-color: #ff4d4f;
-    color: white;
+    background-color: #21262d;
+    color: #c9d1d9;
 
     &:hover {
-        background-color: #e43a3d;
+        background-color: #30363d;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(1px);
     }
 `;
 
