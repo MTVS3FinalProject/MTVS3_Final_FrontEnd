@@ -37,7 +37,7 @@ function App() {
       <Route path='/signup/complete' element={<SignUpComplete />} />
       <Route path='/verification/complete' element={<VerificationComplete />} />
       <Route path='/member/tickets' element={<TicketConcertListPage />} />
-      <Route path='/admin/ticket/verification' element={<QRCodeReader />} />
+      <Route path='/admin/qr' element={<QRCodeReader />} />
       <Route path='/admin/ticket/info' element={<TicketInfoPage />} />
       <Route path='/member/tickets/verification/guide' element={<TicketVerificationGuide />} />
       <Route path='/member/tickets/verification/camera' element={<TicketVerificationCamera />} />

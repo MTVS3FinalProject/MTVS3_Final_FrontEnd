@@ -27,7 +27,7 @@ function AdminMemberVerificationPhoto() {
             navigate('/admin/ticket/verification');
         } catch (error) {
             console.error('신원 확인 실패:', error);
-            alert('신��� 확인에 실패했습니다.');
+            alert('신원 확인에 실패했습니다.');
         } finally {
             setIsUploading(false);
         }

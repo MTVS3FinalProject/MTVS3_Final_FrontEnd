@@ -1,14 +1,4 @@
-import { GetAxiosInstance, PostAxiosInstance } from '../axios/AxiosMethod';
-
-export const getMemberInfo = async (ticketId) => {
-    try {
-        const response = await GetAxiosInstance(`/admin/member/info/${ticketId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching member info:', error);
-        throw error;
-    }
-};
+import { PostAxiosInstance } from '../axios/AxiosMethod';
 
 export const verifyMember = async (ticketId, file) => {
     try {
