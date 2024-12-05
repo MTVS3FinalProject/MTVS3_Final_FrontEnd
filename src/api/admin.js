@@ -6,7 +6,7 @@ export const verifyMember = async (ticketId, file) => {
         formData.append('ticketId', ticketId);
         formData.append('image', file);
 
-        const response = await PostAxiosInstance(`/admin/member/verify`, formData);
+        const response = await PostAxiosInstance(`/admin/ticket/member/verify`, formData);
         return response.data;
     } catch (error) {
         console.error('Error verifying member:', error);

@@ -6,12 +6,12 @@ axiosInstance.interceptors.request.use(
   async (config) => {
     const accessToken = localStorage.getItem('token');
 
-    // if (!accessToken) {
-    //   // 토큰이 없을 경우 로그아웃 처리
-    //   localStorage.clear();
-    //   window.location.href = '/login';
-    //   throw new Error('토큰 없음');
-    // }
+    if (!accessToken) {
+      // 토큰이 없을 경우 로그아웃 처리
+      localStorage.clear();
+      window.location.href = '/';
+      throw new Error('토큰 없음');
+    }
 
     config.headers['Authorization'] = `Bearer ${accessToken}`;
 
@@ -33,6 +33,7 @@ axiosInstance.interceptors.response.use(
     if (error.response?.data?.code === 'AUTH_001') {
       console.log('잘못된 토큰');
       localStorage.removeItem('token');
+      window.location.href = '/';
     }
 
     return Promise.reject(error);
