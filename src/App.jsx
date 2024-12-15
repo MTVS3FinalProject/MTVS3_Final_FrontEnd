@@ -1,8 +1,10 @@
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
+  Navigate
 } from 'react-router-dom';
+import { useEffect } from 'react';
 import Login from './pages/Login';
 import SignUpGuide from './pages/camera/signup/SignUpGuide';
 import Camera from './pages/camera/signup/Camera';
@@ -24,6 +26,29 @@ import TicketVerificationPhoto from './pages/camera/ticket/TicketVerificationPho
 import AdminMemberVerificationCamera from './pages/admin/AdminMemberVerificationCamera';
 import AdminMemberVerificationPhoto from './pages/admin/AdminMemberVerificationPhoto';
 
+import PropTypes from 'prop-types';
+
+// 보호된 라우트를 위한 컴포넌트
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem('token');
+  
+  useEffect(() => {
+    if (!token) {
+      localStorage.clear();
+    }
+  }, [token]);
+
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
+PrivateRoute.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
 function App() {
   return (
     <Routes>
@@ -36,14 +61,48 @@ function App() {
       <Route path='/verification/photo' element={<VerificationPhoto />} />
       <Route path='/signup/complete' element={<SignUpComplete />} />
       <Route path='/verification/complete' element={<VerificationComplete />} />
-      <Route path='/member/tickets' element={<TicketConcertListPage />} />
-      <Route path='/admin/qr' element={<QRCodeReader />} />
-      <Route path='/admin/ticket/info' element={<TicketInfoPage />} />
-      <Route path='/member/tickets/verification/guide' element={<TicketVerificationGuide />} />
-      <Route path='/member/tickets/verification/camera' element={<TicketVerificationCamera />} />
-      <Route path='/member/tickets/verification/photo' element={<TicketVerificationPhoto />} />
-      <Route path='/admin/member/verification/camera' element={<AdminMemberVerificationCamera />} />
-      <Route path='/admin/member/verification/photo' element={<AdminMemberVerificationPhoto />} />
+      
+      {/* 보호된 라우트들 */}
+      <Route path='/member/tickets' element={
+        <PrivateRoute>
+          <TicketConcertListPage />
+        </PrivateRoute>
+      } />
+      <Route path='/admin/qr' element={
+        <PrivateRoute>
+          <QRCodeReader />
+        </PrivateRoute>
+      } />
+      <Route path='/admin/ticket/info' element={
+        <PrivateRoute>
+          <TicketInfoPage />
+        </PrivateRoute>
+      } />
+      <Route path='/member/tickets/verification/guide' element={
+        <PrivateRoute>
+          <TicketVerificationGuide />
+        </PrivateRoute>
+      } />
+      <Route path='/member/tickets/verification/camera' element={
+        <PrivateRoute>
+          <TicketVerificationCamera />
+        </PrivateRoute>
+      } />
+      <Route path='/member/tickets/verification/photo' element={
+        <PrivateRoute>
+          <TicketVerificationPhoto />
+        </PrivateRoute>
+      } />
+      <Route path='/admin/member/verification/camera' element={
+        <PrivateRoute>
+          <AdminMemberVerificationCamera />
+        </PrivateRoute>
+      } />
+      <Route path='/admin/member/verification/photo' element={
+        <PrivateRoute>
+          <AdminMemberVerificationPhoto />
+        </PrivateRoute>
+      } />
     </Routes>
   )
 }
