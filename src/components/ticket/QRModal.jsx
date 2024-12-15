@@ -1,10 +1,31 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { QRCodeSVG } from 'qrcode.react';
+import { useState } from 'react';
+import { checkTicketVerification } from '../../api/ticket';
 
-const QrModal = ({ qrImage, ticketId, onClose, isVerified }) => {
-
+const QrModal = ({ qrImage, ticketId, onClose, isVerified, onVerificationSuccess }) => {
+    const [error, setError] = useState(null);
+    const [checking, setChecking] = useState(false);
     const verificationQrData = `${window.location.origin}/admin/ticket/member/verification?ticketId=${ticketId}`;
+
+    const handleVerification = async () => {
+        try {
+            setChecking(true);
+            const response = await checkTicketVerification(ticketId);
+            
+            if (response.success) {
+                onVerificationSuccess();
+            } else {
+                setError('아직 관리자 인증이 완료되지 않았습니다.');
+            }
+        } catch (err) {
+            setError('인증 상태 확인 중 오류가 발생했습니다.');
+            console.error('Verification error:', err);
+        } finally {
+            setChecking(false);
+        }
+    };
 
     return (
         <ModalBackground onClick={onClose}>
@@ -28,9 +49,13 @@ const QrModal = ({ qrImage, ticketId, onClose, isVerified }) => {
                         <VerificationGuide>
                             관리자가 QR코드를 스캔하여 신원을 확인할 것입니다
                         </VerificationGuide>
-                        <VerifyButton>
-                            인증하기
+                        <VerifyButton 
+                            onClick={handleVerification}
+                            disabled={checking}
+                        >
+                            {checking ? '확인 중...' : '인증 확인'}
                         </VerifyButton>
+                        {error && <ErrorMessage>{error}</ErrorMessage>}
                     </VerificationContainer>
                 )}
             </ModalContent>
@@ -43,6 +68,7 @@ QrModal.propTypes = {
     ticketId: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired,
     isVerified: PropTypes.bool,
+    onVerificationSuccess: PropTypes.func.isRequired,
 };
 
 const ModalBackground = styled.div`
@@ -134,6 +160,13 @@ const VerifyButton = styled.button`
     &:active {
         transform: translateY(1px);
     }
+`;
+
+const ErrorMessage = styled.div`
+    color: #ff4d4f;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
 `;
 
 export default QrModal;

@@ -29,3 +29,13 @@ export const getTicketDetails = async (ticketId) => {
         throw error;
     }
 }
+
+export const checkTicketVerification = async (ticketId) => {
+    try {
+        const response = await GetAxiosInstance(`/member/tickets/${ticketId}/verification`);
+        return response.data;
+    } catch (error) {
+        console.error('Error checking ticket verification:', error);
+        throw error;
+    }
+};

@@ -5,13 +5,15 @@ import QrModal from './QRModal';
 import { useLocation } from 'react-router-dom';
 
 const TicketModal = ({ ticketDetails, loading, onClose }) => {
-    const [isFlipped, setIsFlipped] = useState(false); // 플립 상태 관리
-    const [showQrModal, setShowQrModal] = useState(false); // QR 모달 상태
+    const [isFlipped, setIsFlipped] = useState(false);
+    const [showQrModal, setShowQrModal] = useState(false);
+    const [isVerified, setIsVerified] = useState(ticketDetails.isVerified);
     const location = useLocation();
 
-    // 인증 성공 후 돌아왔을 때만 QR Modal 자동으로 열기
+    // 인증 성공 후 돌아왔을 때 QR Modal 자동으로 열기
     useEffect(() => {
         if (location.state?.showQR && location.state?.ticketId === ticketDetails.ticketId) {
+            setIsVerified(true); // 인증 상태 업데이트
             setShowQrModal(true);
             window.history.replaceState({}, document.title);
         }
@@ -30,6 +32,10 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
 
     const closeQrModal = () => {
         setShowQrModal(false);
+    };
+
+    const handleVerificationSuccess = () => {
+        setIsVerified(true);
     };
 
     return (
@@ -83,7 +89,8 @@ const TicketModal = ({ ticketDetails, loading, onClose }) => {
                     qrImage={ticketDetails.qrImage}
                     ticketId={ticketDetails.ticketId}
                     onClose={closeQrModal}
-                    isVerified={ticketDetails.isVerified}
+                    isVerified={isVerified}
+                    onVerificationSuccess={handleVerificationSuccess}
                 />
             )}
         </>
