@@ -24,7 +24,7 @@ function AdminMemberVerificationPhoto() {
             
             await verifyMember(ticketId, file);
             alert('신원 확인이 완료되었습니다.');
-            navigate('/admin/ticket/verification');
+            navigate('/admin/qr');
         } catch (error) {
             console.error('신원 확인 실패:', error);
             alert('신원 확인에 실패했습니다.');

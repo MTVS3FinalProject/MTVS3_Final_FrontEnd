@@ -16,7 +16,7 @@ const TicketInfoPage = () => {
         try {
             await consumeTicket(ticketInfo.ticketId); // API 호출
             alert('Ticket has been successfully consumed.');
-            navigate('/admin/ticket/verification'); // 성공적으로 사용 후 스캐너 페이지로 이동
+            navigate('/admin/qr'); // 성공적으로 사용 후 스캐너 페이지로 이동
         } catch (error) {
             console.error('Error consuming the ticket:', error);
             alert('Failed to consume ticket. Please try again.');
@@ -27,7 +27,7 @@ const TicketInfoPage = () => {
         return (
             <Container>
                 <h2>No Ticket Information Found</h2>
-                <Button onClick={() => navigate('/admin/ticket/verification')}>Go Back to Scanner</Button>
+                <Button onClick={() => navigate('/admin/qr')}>Go Back to Scanner</Button>
             </Container>
         );
     }
@@ -41,7 +41,7 @@ const TicketInfoPage = () => {
                 <p><strong>Seat:</strong> {ticketInfo.seatInfo}</p>
             </Info>
             <Button onClick={handleConsumeTicket}>사용하기</Button>
-            <Button onClick={() => navigate('/admin/ticket/verification')}>Scan Another Ticket</Button>
+            <Button onClick={() => navigate('/admin/qr')}>Scan Another Ticket</Button>
         </Container>
     );
 };
