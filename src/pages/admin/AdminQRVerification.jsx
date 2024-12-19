@@ -76,7 +76,7 @@ const QRCodeReader = () => {
                 );
             } catch (err) {
                 console.error("Error starting scanner:", err);
-                setError('카메라를 시작할 수 없습니다.');
+                setError('카메라 사용 중');
             }
         };
 
